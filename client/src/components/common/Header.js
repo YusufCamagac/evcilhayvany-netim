@@ -8,35 +8,22 @@ const Header = () => {
         <Link to="/" className="text-lg font-bold">
           Evcil Hayvan Bakım Sistemi
         </Link>
-        <nav>
-          <ul className="flex space-x-4">
-            <li>
-              <Link to="/pet-registration" className="hover:underline">
-                Evcil Hayvan Kaydı
-              </Link>
-            </li>
-            <li>
-              <Link to="/appointment-scheduling" className="hover:underline">
-                Randevu Al
-              </Link>
-            </li>
-            <li>
-              <Link to="/medical-records" className="hover:underline">
-                Tıbbi Kayıtlar
-              </Link>
-            </li>
-            <li>
-              <Link to="/reminders" className="hover:underline">
-                Hatırlatıcılar
-              </Link>
-            </li>
-            <li>
-              <Link to="/user-management" className="hover:underline">
-                Kullanıcı Yönetimi
-              </Link>
-            </li>
-            {/* Giriş/Çıkış bağlantıları eklenebilir */}
-          </ul>
+        <nav className="space-x-4">
+          <Link to="/pet-registration" className="hover:text-primary-100">
+            Evcil Hayvan Kaydı
+          </Link>
+          <Link to="/appointment-scheduling" className="hover:text-primary-100">
+            Randevu Al
+          </Link>
+          <Link to="/medical-records" className="hover:text-primary-100">
+            Tıbbi Kayıtlar
+          </Link>
+          <Link to="/reminders" className="hover:text-primary-100">
+            Hatırlatıcılar
+          </Link>
+          <Link to="/user-management" className="hover:text-primary-100">
+            Kullanıcı Yönetimi
+          </Link>
         </nav>
       </div>
     </header>
