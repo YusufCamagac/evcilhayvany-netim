@@ -44,13 +44,16 @@ const PetsManagement = () => {
   };
 
   const handleDelete = async (petId) => {
-    if (window.confirm('Evcil hayvani silmek istediğinize emin misiniz?')) {
+    if (window.confirm('Evcil hayvanı silmek istediğinize emin misiniz?')) {
       try {
         await deletePet(petId);
         setPets(pets.filter((pet) => pet.id !== petId));
         setSelectedPet(null);
         setEditMode(false);
         setMessage('Evcil hayvan başarıyla silindi.');
+
+        // Mesajı temizle:
+        setTimeout(() => setMessage(''), 3000);
       } catch (error) {
         console.error('Evcil hayvan silinemedi:', error);
         setMessage('Evcil hayvan silinemedi.');
@@ -65,7 +68,6 @@ const PetsManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editMode) {
-      // Güncelleme
       try {
         const response = await updatePet(selectedPet.id, formData);
         setPets(
@@ -74,6 +76,9 @@ const PetsManagement = () => {
         setSelectedPet(null);
         setEditMode(false);
         setMessage('Evcil hayvan başarıyla güncellendi.');
+
+        // Mesajı temizle:
+        setTimeout(() => setMessage(''), 3000);
       } catch (error) {
         console.error('Evcil hayvan güncellenemedi:', error);
         setMessage('Evcil hayvan güncellenemedi.');
@@ -96,126 +101,229 @@ const PetsManagement = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Evcil Hayvanları Yönet</h2>
+    <div className="bg-secondary-900 p-4">
+      <div className="container mx-auto">
+        <h2 className="text-2xl font-bold mb-4 text-primary-500">
+          Evcil Hayvanları Yönet
+        </h2>
 
-      {message && (
-        <div
-          className={`mb-4 p-2 ${
-            message.includes('başarıyla') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-          }`}
-        >
-          {message}
-        </div>
-      )}
+        {message && (
+          <div className="mb-4 p-2 bg-red-100 text-red-700">{message}</div>
+        )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {pets.map((pet) => (
-          <div key={pet.id} className="p-4 border rounded-lg shadow-md">
-            <p className="font-semibold">İsim: {pet.name}</p>
-            <p>Tür: {pet.species}</p>
-            <p>Cins: {pet.breed}</p>
-            <p>Yaş: {pet.age}</p>
-            <p>Cinsiyet: {pet.gender}</p>
-            <p>Tıbbi Geçmiş: {pet.medicalHistory}</p>
-            <div className="mt-2">
-              <button
-                onClick={() => handleEdit(pet)}
-                className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 mr-2"
-              >
-                Düzenle
-              </button>
-              <button
-                onClick={() => handleDelete(pet.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
-              >
-                Sil
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {editMode && (
-        <div className="mt-8">
-          <h3 className="text-xl font-semibold">
-            Evcil Hayvan Düzenle
-          </h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="name" className="block mb-2">
-                İsim
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-md"
-                required
-              />
-            </div>
-             <div>
-                <label htmlFor="species" className="block mb-2">
-                  Tür
-                </label>
-                <input
-                  type="text"
-                  id="species"
-                  name="species"
-                  value={formData.species}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-md"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="breed" className="block mb-2">
-                  Cins
-                </label>
-                <input
-                  type="text"
-                  id="breed"
-                  name="breed"
-                  value={formData.breed}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-md"
-                />
-              </div>
-              <div>
-                <label htmlFor="age" className="block mb-2">
-                  Yaş
-                </label>
-                <input
-                  type="number"
-                  id="age"
-                  name="age"
-                  value={formData.age}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-md"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="gender" className="block mb-2">
-                  Cinsiyet
-                </label>
-                <select
-                  id="gender"
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-md"
-                  required
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {pets.map((pet) => (
+            <div
+              key={pet.id}
+              className="p-4 border rounded-lg shadow-md bg-secondary-800"
+            >
+              <p className="font-semibold text-secondary-300">
+                İsim: {pet.name}
+              </p>
+              <p className="text-secondary-300">Tür: {pet.species}</p>
+              <p className="text-secondary-300">Cins: {pet.breed}</p>
+              <p className="text-secondary-300">Yaş: {pet.age}</p>
+              <p className="text-secondary-300">Cinsiyet: {pet.gender}</p>
+              <p className="text-secondary-300">
+                Tıbbi Geçmiş: {pet.medicalHistory}
+              </p>
+              <div className="mt-2">
+                <button
+                  onClick={() => handleEdit(pet)}
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md mr-2"
                 >
-                  <option value="">Seçiniz</option>
-                  <option value="Erkek">Erkek</option>
-                  <option value="Dişi">Dişi</option>
-                </select>
+                  Düzenle
+                </button>
+                <button
+                  onClick={() => handleDelete(pet.id)}
+                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
+                >
+                  Sil
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {editMode && (
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold text-secondary-300">
+              Evcil Hayvan Düzenle
+            </h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="flex flex-wrap -mx-4">
+                <div className="w-full md:w-1/2 px-4">
+                  <div>
+                    <label
+                      htmlFor="name"
+                      className="block mb-2 text-secondary-300"
+                    >
+                      İsim
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="
+                        w-full
+                        px-3
+                        py-2
+                        border
+                        rounded-md
+                        bg-secondary-800
+                        text-secondary-300
+                        placeholder-secondary-400
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-primary-500
+                      "
+                      required
+                      placeholder="Evcil hayvanın adı"
+                    />
+                  </div>
+                </div>
+                <div className="w-full md:w-1/2 px-4">
+                  <div>
+                    <label
+                      htmlFor="species"
+                      className="block mb-2 text-secondary-300"
+                    >
+                      Tür
+                    </label>
+                    <input
+                      type="text"
+                      id="species"
+                      name="species"
+                      value={formData.species}
+                      onChange={handleChange}
+                      className="
+                        w-full
+                        px-3
+                        py-2
+                        border
+                        rounded-md
+                        bg-secondary-800
+                        text-secondary-300
+                        placeholder-secondary-400
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-primary-500
+                      "
+                      required
+                      placeholder="Örn: Kedi, Köpek"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-wrap -mx-4">
+                <div className="w-full md:w-1/2 px-4">
+                  <div>
+                    <label
+                      htmlFor="breed"
+                      className="block mb-2 text-secondary-300"
+                    >
+                      Cins
+                    </label>
+                    <input
+                      type="text"
+                      id="breed"
+                      name="breed"
+                      value={formData.breed}
+                      onChange={handleChange}
+                      className="
+                        w-full
+                        px-3
+                        py-2
+                        border
+                        rounded-md
+                        bg-secondary-800
+                        text-secondary-300
+                        placeholder-secondary-400
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-primary-500
+                      "
+                      placeholder="Örn: Siyam, Golden Retriever"
+                    />
+                  </div>
+                </div>
+                <div className="w-full md:w-1/2 px-4">
+                  <div>
+                    <label
+                      htmlFor="age"
+                      className="block mb-2 text-secondary-300"
+                    >
+                      Yaş
+                    </label>
+                    <input
+                      type="number"
+                      id="age"
+                      name="age"
+                      value={formData.age}
+                      onChange={handleChange}
+                      className="
+                        w-full
+                        px-3
+                        py-2
+                        border
+                        rounded-md
+                        bg-secondary-800
+                        text-secondary-300
+                        placeholder-secondary-400
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-primary-500
+                      "
+                      required
+                      min="0"
+                      max="30"
+                      placeholder="Yaş"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-wrap -mx-4">
+                <div className="w-full md:w-1/2 px-4">
+                  <div>
+                    <label
+                      htmlFor="gender"
+                      className="block mb-2 text-secondary-300"
+                    >
+                      Cinsiyet
+                    </label>
+                    <select
+                      id="gender"
+                      name="gender"
+                      value={formData.gender}
+                      onChange={handleChange}
+                      className="
+                        w-full
+                        px-3
+                        py-2
+                        border
+                        rounded-md
+                        bg-secondary-800
+                        text-secondary-300
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-primary-500
+                      "
+                      required
+                    >
+                      <option value="">Seçiniz</option>
+                      <option value="Erkek">Erkek</option>
+                      <option value="Dişi">Dişi</option>
+                    </select>
+                  </div>
+                </div>
               </div>
               <div>
-                <label htmlFor="medicalHistory" className="block mb-2">
+                <label
+                  htmlFor="medicalHistory"
+                  className="block mb-2 text-secondary-300"
+                >
                   Tıbbi Geçmiş
                 </label>
                 <textarea
@@ -223,27 +331,41 @@ const PetsManagement = () => {
                   name="medicalHistory"
                   value={formData.medicalHistory}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-md"
+                  className="
+                    w-full
+                    px-3
+                    py-2
+                    border
+                    rounded-md
+                    bg-secondary-800
+                    text-secondary-300
+                    placeholder-secondary-400
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-primary-500
+                  "
+                  placeholder="Evcil hayvanın tıbbi geçmişi"
                 />
               </div>
-            <div className="flex items-center">
-              <button
-                type="submit"
-                className= "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mr-2"
-              >
-                Kaydet
-              </button>
-              <button
-                type="button"
-                onClick={handleCancel}
-                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-              >
-                İptal
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+              <div className="flex items-center">
+                <button
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mr-2"
+                >
+                  Kaydet
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md"
+                >
+                  İptal
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

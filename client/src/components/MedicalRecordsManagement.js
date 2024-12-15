@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getMedicalRecords, updateMedicalRecord, deleteMedicalRecord } from '../api';
+import { getMedicalRecords, updateMedicalRecord, deleteMedicalRecord, getPets } from '../api';
 
 const MedicalRecordsManagement = () => {
   const [medicalRecords, setMedicalRecords] = useState([]);
@@ -11,18 +11,35 @@ const MedicalRecordsManagement = () => {
     description: '',
   });
   const [message, setMessage] = useState('');
+  const [pets, setPets] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        const response = await getPets();
+        setPets(response.data);
+      } catch (error) {
+        console.error('Evcil hayvanlar alınamadı:', error);
+        setError('Evcil hayvanlar alınamadı.');
+      }
+    };
+    fetchPets();
     fetchMedicalRecords();
   }, []);
 
   const fetchMedicalRecords = async () => {
+    setIsLoading(true);
+    setError(null);
     try {
       const response = await getMedicalRecords();
       setMedicalRecords(response.data);
     } catch (error) {
       console.error('Tıbbi kayıtlar alınamadı:', error);
-      setMessage('Tıbbi kayıtlar alınamadı.');
+      setError('Tıbbi kayıtlar alınamadı.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -35,19 +52,29 @@ const MedicalRecordsManagement = () => {
     });
     setEditMode(true);
     setMessage('');
+    setError(null);
   };
 
   const handleDelete = async (recordId) => {
     if (window.confirm('Tıbbi kaydı silmek istediğinize emin misiniz?')) {
+      setIsLoading(true);
+      setError(null);
       try {
         await deleteMedicalRecord(recordId);
-        setMedicalRecords(medicalRecords.filter((record) => record.id !== recordId));
+        setMedicalRecords(
+          medicalRecords.filter((record) => record.id !== recordId)
+        );
         setSelectedRecord(null);
         setEditMode(false);
         setMessage('Tıbbi kayıt başarıyla silindi.');
+
+        // Mesajı temizle:
+        setTimeout(() => setMessage(''), 3000);
       } catch (error) {
         console.error('Tıbbi kayıt silinemedi:', error);
-        setMessage('Tıbbi kayıt silinemedi.');
+        setError('Tıbbi kayıt silinemedi.');
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -60,17 +87,29 @@ const MedicalRecordsManagement = () => {
     e.preventDefault();
     if (editMode) {
       // Güncelleme
+      setIsLoading(true);
+      setError(null);
       try {
-        const response = await updateMedicalRecord(selectedRecord.id, formData);
+        const response = await updateMedicalRecord(
+          selectedRecord.id,
+          formData
+        );
         setMedicalRecords(
-          medicalRecords.map((record) => (record.id === selectedRecord.id ? response.data : record))
+          medicalRecords.map((record) =>
+            record.id === selectedRecord.id ? response.data : record
+          )
         );
         setSelectedRecord(null);
         setEditMode(false);
         setMessage('Tıbbi kayıt başarıyla güncellendi.');
+
+        // Mesajı temizle:
+        setTimeout(() => setMessage(''), 3000);
       } catch (error) {
         console.error('Tıbbi kayıt güncellenemedi:', error);
-        setMessage('Tıbbi kayıt güncellenemedi.');
+        setError('Tıbbi kayıt güncellenemedi.');
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -84,110 +123,186 @@ const MedicalRecordsManagement = () => {
       description: '',
     });
     setMessage('');
+    setError(null);
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Tıbbi Kayıtları Yönet</h2>
+    <div className="bg-secondary-900 p-4">
+      <div className="container mx-auto">
+        <h2 className="text-2xl font-bold mb-4 text-primary-500">
+          Tıbbi Kayıtları Yönet
+        </h2>
 
-      {message && (
-        <div
-          className={`mb-4 p-2 ${
-            message.includes('başarıyla') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-          }`}
-        >
-          {message}
+        {isLoading && (
+          <div className="mb-4 p-2 text-secondary-300">Yükleniyor...</div>
+        )}
+
+        {error && (
+          <div className="mb-4 p-2 bg-red-100 text-red-700">{error}</div>
+        )}
+
+        {message && (
+          <div className="mb-4 p-2 bg-green-100 text-green-700">{message}</div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {medicalRecords.map((record) => {
+            const pet = pets.find((p) => p.id === record.petId);
+            return (
+              <div
+                key={record.id}
+                className="p-4 border rounded-lg shadow-md bg-secondary-800"
+              >
+                <p className="font-semibold text-secondary-300">
+                  Evcil Hayvan: {pet ? pet.name : 'Bilinmiyor'}
+                </p>
+                <p className="text-secondary-300">
+                  Kayıt Tarihi: {new Date(record.recordDate).toLocaleDateString()}
+                </p>
+                <p className="text-secondary-300">
+                  Açıklama: {record.description}
+                </p>
+                <div className="mt-2">
+                  <button
+                    onClick={() => handleEdit(record)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md mr-2"
+                  >
+                    Düzenle
+                  </button>
+                  <button
+                    onClick={() => handleDelete(record.id)}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
+                  >
+                    Sil
+                  </button>
+                </div>
+              </div>
+            );
+          })}
         </div>
-      )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {medicalRecords.map((record) => (
-          <div key={record.id} className="p-4 border rounded-lg shadow-md">
-            <p className="font-semibold">Pet ID: {record.petId}</p>
-            <p>Kayıt Tarihi: {new Date(record.recordDate).toLocaleDateString()}</p>
-            <p>Açıklama: {record.description}</p>
-            <div className="mt-2">
-              <button
-                onClick={() => handleEdit(record)}
-                className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 mr-2"
-              >
-                Düzenle
-              </button>
-              <button
-                onClick={() => handleDelete(record.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
-              >
-                Sil
-              </button>
-            </div>
+        {editMode && (
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold text-secondary-300">
+              Tıbbi Kaydı Düzenle
+            </h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="flex flex-wrap -mx-4">
+                <div className="w-full md:w-1/2 px-4">
+                  <div>
+                    <label
+                      htmlFor="petId"
+                      className="block mb-2 text-secondary-300"
+                    >
+                      Evcil Hayvan
+                    </label>
+                    <select
+                      id="petId"
+                      name="petId"
+                      value={formData.petId}
+                      onChange={handleChange}
+                      className="
+                        w-full
+                        px-3
+                        py-2
+                        border
+                        rounded-md
+                        bg-secondary-800
+                        text-secondary-300
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-primary-500
+                      "
+                      required
+                    >
+                      <option value="">Seçiniz</option>
+                      {pets.map((pet) => (
+                        <option key={pet.id} value={pet.id}>
+                          {pet.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="w-full md:w-1/2 px-4">
+                  <div>
+                    <label
+                      htmlFor="recordDate"
+                      className="block mb-2 text-secondary-300"
+                    >
+                      Kayıt Tarihi
+                    </label>
+                    <input
+                      type="date"
+                      id="recordDate"
+                      name="recordDate"
+                      value={formData.recordDate}
+                      onChange={handleChange}
+                      className="
+                        w-full
+                        px-3
+                        py-2
+                        border
+                        rounded-md
+                        bg-secondary-800
+                        text-secondary-300
+                        placeholder-secondary-400
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-primary-500
+                      "
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="description"
+                  className="block mb-2 text-secondary-300"
+                >
+                  Açıklama
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  className="
+                    w-full
+                    px-3
+                    py-2
+                    border
+                    rounded-md
+                    bg-secondary-800
+                    text-secondary-300
+                    placeholder-secondary-400
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-primary-500
+                  "
+                  placeholder="Tıbbi kayıt detayları"
+                />
+              </div>
+              <div className="flex items-center">
+                <button
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mr-2"
+                >
+                  Kaydet
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md"
+                >
+                  İptal
+                </button>
+              </div>
+            </form>
           </div>
-        ))}
+        )}
       </div>
-
-      {editMode && (
-        <div className="mt-8">
-          <h3 className="text-xl font-semibold">
-            Tıbbi Kaydı Düzenle
-          </h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="petId" className="block mb-2">
-                Pet ID
-              </label>
-              <input
-                type="text"
-                id="petId"
-                name="petId"
-                value={formData.petId}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="recordDate" className="block mb-2">
-                Kayıt Tarihi
-              </label>
-              <input
-                type="date"
-                id="recordDate"
-                name="recordDate"
-                value={formData.recordDate}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="description" className="block mb-2">
-                Açıklama
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-md"
-              />
-            </div>
-            <div className="flex items-center">
-              <button
-                type="submit"
-                className= "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mr-2"
-              >
-                Kaydet
-              </button>
-              <button
-                type="button"
-                onClick={handleCancel}
-                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-              >
-                İptal
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
     </div>
   );
 };
