@@ -5,16 +5,16 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9', // Ana rengimiz (soft mavi)
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
+          50: '#e0f2fe',
+          100: '#bae6fd',
+          200: '#7dd3fc',
+          300: '#38bdf8',
+          400: '#0ea5e9',
+          500: '#0284c7', // Açık mavi (linkler ve vurgular için)
+          600: '#0369a1',
+          700: '#075985',
+          800: '#0c4a6e',
+          900: '#0d405d', // Koyu lacivert (başlıklar ve bazı metinler için)
         },
         secondary: {
           50: '#f8fafc',
@@ -22,11 +22,11 @@ module.exports = {
           200: '#e2e8f0',
           300: '#cbd5e1',
           400: '#94a3b8',
-          500: '#64748b', // İkincil renk (soft gri)
+          500: '#64748b', // Açık gri (metin rengi)
           600: '#475569',
           700: '#334155',
           800: '#1e293b',
-          900: '#0f172a',
+          900: '#141e30', // Çok koyu lacivert (ana arka plan rengi)
         },
         accent: {
           50: '#fff7ed',
@@ -34,15 +34,16 @@ module.exports = {
           200: '#fed7aa',
           300: '#fdba74',
           400: '#fb923c',
-          500: '#f97316', // Vurgu rengi (soft turuncu)
+          500: '#f97316', // Turuncu (vurgu rengi)
           600: '#ea580c',
           700: '#c2410c',
           800: '#9a3412',
           900: '#7c2d12',
         },
+        black: '#000000',
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', /* ... diğer yedek yazı tipleri */],
+        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
       },
     },
   },

@@ -1,5 +1,8 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background-color: theme('colors.secondary.900'); /* Çok koyu lacivert arka plan */
+  color: theme('colors.secondary.500'); /* Açık gri metin rengi */
+}
