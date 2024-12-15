@@ -7,6 +7,11 @@ import MedicalRecords from '../components/MedicalRecords';
 import Reminders from '../components/Reminders';
 import UserManagement from '../components/UserManagement';
 import AdminManagement from '../components/AdminManagement';
+//Yönetim Paneli Altında Gösterilecek Sayfalar
+import PetsManagement from '../components/PetsManagement';
+import AppointmentsManagement from '../components/AppointmentsManagement';
+import MedicalRecordsManagement from '../components/MedicalRecordsManagement';
+
 import MainLayout from '../layouts/MainLayout';
 import AdminLayout from '../layouts/AdminLayout';
 
@@ -24,7 +29,11 @@ const AppRoutes = () => {
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminManagement />} />
-          {/* Diğer yönetici rotaları eklenebilir */}
+          <Route path="users" element={<UserManagement />} />
+          {/* Diğer yönetici rotaları */}
+          <Route path="pets" element={<PetsManagement />} />
+          <Route path="appointments" element={<AppointmentsManagement />} />
+          <Route path="medical-records" element={<MedicalRecordsManagement />} />
         </Route>
       </Routes>
     </BrowserRouter>
