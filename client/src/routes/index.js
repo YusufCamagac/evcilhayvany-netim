@@ -7,11 +7,9 @@ import MedicalRecords from '../components/MedicalRecords';
 import Reminders from '../components/Reminders';
 import UserManagement from '../components/UserManagement';
 import AdminManagement from '../components/AdminManagement';
-//Yönetim Paneli Altında Gösterilecek Sayfalar
 import PetsManagement from '../components/PetsManagement';
 import AppointmentsManagement from '../components/AppointmentsManagement';
 import MedicalRecordsManagement from '../components/MedicalRecordsManagement';
-
 import MainLayout from '../layouts/MainLayout';
 import AdminLayout from '../layouts/AdminLayout';
 
@@ -22,7 +20,10 @@ const AppRoutes = () => {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="pet-registration" element={<PetRegistration />} />
-          <Route path="appointment-scheduling" element={<AppointmentScheduling />} />
+          <Route
+            path="appointment-scheduling"
+            element={<AppointmentScheduling />}
+          />
           <Route path="medical-records" element={<MedicalRecords />} />
           <Route path="reminders" element={<Reminders />} />
           <Route path="user-management" element={<UserManagement />} />
@@ -30,10 +31,12 @@ const AppRoutes = () => {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminManagement />} />
           <Route path="users" element={<UserManagement />} />
-          {/* Diğer yönetici rotaları */}
           <Route path="pets" element={<PetsManagement />} />
           <Route path="appointments" element={<AppointmentsManagement />} />
-          <Route path="medical-records" element={<MedicalRecordsManagement />} />
+          <Route
+            path="medical-records"
+            element={<MedicalRecordsManagement />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

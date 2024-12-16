@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { getMedicalRecords, updateMedicalRecord, deleteMedicalRecord, getPets } from '../api';
+import {
+  getMedicalRecords,
+  updateMedicalRecord,
+  deleteMedicalRecord,
+  getPets,
+} from '../api';
 
 const MedicalRecordsManagement = () => {
   const [medicalRecords, setMedicalRecords] = useState([]);
@@ -67,8 +72,6 @@ const MedicalRecordsManagement = () => {
         setSelectedRecord(null);
         setEditMode(false);
         setMessage('Tıbbi kayıt başarıyla silindi.');
-
-        // Mesajı temizle:
         setTimeout(() => setMessage(''), 3000);
       } catch (error) {
         console.error('Tıbbi kayıt silinemedi:', error);
@@ -85,10 +88,9 @@ const MedicalRecordsManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
     if (editMode) {
-      // Güncelleme
-      setIsLoading(true);
-      setError(null);
       try {
         const response = await updateMedicalRecord(
           selectedRecord.id,
@@ -102,8 +104,6 @@ const MedicalRecordsManagement = () => {
         setSelectedRecord(null);
         setEditMode(false);
         setMessage('Tıbbi kayıt başarıyla güncellendi.');
-
-        // Mesajı temizle:
         setTimeout(() => setMessage(''), 3000);
       } catch (error) {
         console.error('Tıbbi kayıt güncellenemedi:', error);
@@ -136,11 +136,7 @@ const MedicalRecordsManagement = () => {
         {isLoading && (
           <div className="mb-4 p-2 text-secondary-300">Yükleniyor...</div>
         )}
-
-        {error && (
-          <div className="mb-4 p-2 bg-red-100 text-red-700">{error}</div>
-        )}
-
+        {error && <div className="mb-4 p-2 bg-red-100 text-red-700">{error}</div>}
         {message && (
           <div className="mb-4 p-2 bg-green-100 text-green-700">{message}</div>
         )}

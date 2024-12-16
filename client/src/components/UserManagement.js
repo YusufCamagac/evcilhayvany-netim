@@ -1,76 +1,68 @@
 import React, { useState, useEffect } from 'react';
-import { getMedicalRecords, updateMedicalRecord, deleteMedicalRecord, getPets } from '../api';
+import { getUsers, createUser, updateUser, deleteUser } from '../api';
 
-const MedicalRecordsManagement = () => {
-  const [medicalRecords, setMedicalRecords] = useState([]);
-  const [selectedRecord, setSelectedRecord] = useState(null);
+const UserManagement = () => {
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [addMode, setAddMode] = useState(false);
   const [formData, setFormData] = useState({
-    petId: '',
-    recordDate: '',
-    description: '',
+    username: '',
+    email: '',
+    password: '',
+    role: 'user',
   });
   const [message, setMessage] = useState('');
-  const [pets, setPets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchPets = async () => {
-      try {
-        const response = await getPets();
-        setPets(response.data);
-      } catch (error) {
-        console.error('Evcil hayvanlar alınamadı:', error);
-        setError('Evcil hayvanlar alınamadı.');
-      }
-    };
-    fetchPets();
-    fetchMedicalRecords();
+    fetchUsers();
   }, []);
 
-  const fetchMedicalRecords = async () => {
+  const fetchUsers = async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await getMedicalRecords();
-      setMedicalRecords(response.data);
+      const response = await getUsers();
+      setUsers(response.data);
     } catch (error) {
-      console.error('Tıbbi kayıtlar alınamadı:', error);
-      setError('Tıbbi kayıtlar alınamadı.');
+      console.error('Kullanıcılar alınamadı:', error);
+      setError('Kullanıcılar alınamadı.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleEdit = (record) => {
-    setSelectedRecord(record);
+  const handleEdit = (user) => {
+    setSelectedUser(user);
     setFormData({
-      petId: record.petId,
-      recordDate: record.recordDate,
-      description: record.description,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      password: '', // Şifreyi düzenlerken boş bırak
     });
     setEditMode(true);
+    setAddMode(false);
     setMessage('');
     setError(null);
   };
 
-  const handleDelete = async (recordId) => {
-    if (window.confirm('Tıbbi kaydı silmek istediğinize emin misiniz?')) {
+  const handleDelete = async (userId) => {
+    if (window.confirm('Kullanıcıyı silmek istediğinize emin misiniz?')) {
       setIsLoading(true);
       setError(null);
       try {
-        await deleteMedicalRecord(recordId);
-        setMedicalRecords(
-          medicalRecords.filter((record) => record.id !== recordId)
-        );
-        setSelectedRecord(null);
+        await deleteUser(userId);
+        setUsers(users.filter((user) => user.id !== userId));
+        setSelectedUser(null);
         setEditMode(false);
-        setMessage('Tıbbi kayıt başarıyla silindi.');
+        setAddMode(false);
+        setMessage('Kullanıcı başarıyla silindi.');
         setTimeout(() => setMessage(''), 3000);
       } catch (error) {
-        console.error('Tıbbi kayıt silinemedi:', error);
-        setError('Tıbbi kayıt silinemedi.');
+        console.error('Kullanıcı silinemedi:', error);
+        setError('Kullanıcı silinemedi.');
       } finally {
         setIsLoading(false);
       }
@@ -83,39 +75,71 @@ const MedicalRecordsManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
     if (editMode) {
-      setIsLoading(true);
-      setError(null);
       try {
-        const response = await updateMedicalRecord(
-          selectedRecord.id,
-          formData
-        );
-        setMedicalRecords(
-          medicalRecords.map((record) =>
-            record.id === selectedRecord.id ? response.data : record
+        const response = await updateUser(selectedUser.id, formData);
+        setUsers(
+          users.map((user) =>
+            user.id === selectedUser.id ? response.data : user
           )
         );
-        setSelectedRecord(null);
+        setSelectedUser(null);
         setEditMode(false);
-        setMessage('Tıbbi kayıt başarıyla güncellendi.');
+        setMessage('Kullanıcı başarıyla güncellendi.');
         setTimeout(() => setMessage(''), 3000);
       } catch (error) {
-        console.error('Tıbbi kayıt güncellenemedi:', error);
-        setError('Tıbbi kayıt güncellenemedi.');
+        console.error('Kullanıcı güncellenemedi:', error);
+        setError('Kullanıcı güncellenemedi.');
+      } finally {
+        setIsLoading(false);
+      }
+    } else if (addMode) {
+      try {
+        const response = await createUser(formData);
+        setUsers([...users, response.data]);
+        setAddMode(false);
+        setFormData({
+          username: '',
+          email: '',
+          password: '',
+          role: 'user',
+        });
+        setMessage('Kullanıcı başarıyla eklendi.');
+        setTimeout(() => setMessage(''), 3000);
+      } catch (error) {
+        console.error('Kullanıcı eklenemedi:', error);
+        setError('Kullanıcı eklenemedi.');
       } finally {
         setIsLoading(false);
       }
     }
   };
 
-  const handleCancel = () => {
+  const handleAdd = () => {
+    setAddMode(true);
     setEditMode(false);
-    setSelectedRecord(null);
+    setSelectedUser(null);
     setFormData({
-      petId: '',
-      recordDate: '',
-      description: '',
+      username: '',
+      email: '',
+      password: '',
+      role: 'user',
+    });
+    setMessage('');
+    setError(null);
+  };
+
+  const handleCancel = () => {
+    setAddMode(false);
+    setEditMode(false);
+    setSelectedUser(null);
+    setFormData({
+      username: '',
+      email: '',
+      password: '',
+      role: 'user',
     });
     setMessage('');
     setError(null);
@@ -125,7 +149,7 @@ const MedicalRecordsManagement = () => {
     <div className="bg-secondary-900 p-4">
       <div className="container mx-auto">
         <h2 className="text-2xl font-bold mb-4 text-primary-500">
-          Tıbbi Kayıtları Yönet
+          Kullanıcı Yönetimi
         </h2>
 
         {isLoading && <div className="mb-4 p-2 text-secondary-300">Yükleniyor...</div>}
@@ -134,128 +158,62 @@ const MedicalRecordsManagement = () => {
           <div className="mb-4 p-2 bg-green-100 text-green-700">{message}</div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {medicalRecords.map((record) => {
-            const pet = pets.find((p) => p.id === record.petId);
-            return (
-              <div
-                key={record.id}
-                className="p-4 border rounded-lg shadow-md bg-secondary-800"
-              >
-                <p className="font-semibold text-secondary-300">
-                  Evcil Hayvan: {pet ? pet.name : 'Bilinmiyor'}
-                </p>
-                <p className="text-secondary-300">
-                  Kayıt Tarihi: {new Date(record.recordDate).toLocaleDateString()}
-                </p>
-                <p className="text-secondary-300">
-                  Açıklama: {record.description}
-                </p>
-                <div className="mt-2">
-                  <button
-                    onClick={() => handleEdit(record)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md mr-2"
-                  >
-                    Düzenle
-                  </button>
-                  <button
-                    onClick={() => handleDelete(record.id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
-                  >
-                    Sil
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+        <div className="mb-4">
+          <button
+            onClick={handleAdd}
+            className="bg-accent-500 hover:bg-accent-600 text-white px-4 py-2 rounded-md"
+          >
+            Yeni Kullanıcı Ekle
+          </button>
         </div>
 
-        {editMode && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {users.map((user) => (
+            <div
+              key={user.id}
+              className="p-4 border rounded-lg shadow-md bg-secondary-800"
+            >
+              <p className="font-semibold text-secondary-300">
+                Kullanıcı Adı: {user.username}
+              </p>
+              <p className="text-secondary-300">E-posta: {user.email}</p>
+              <p className="text-secondary-300">Rol: {user.role}</p>
+              <div className="mt-2">
+                <button
+                  onClick={() => handleEdit(user)}
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md mr-2"
+                >
+                  Düzenle
+                </button>
+                <button
+                  onClick={() => handleDelete(user.id)}
+                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
+                >
+                  Sil
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {(editMode || addMode) && (
           <div className="mt-8">
             <h3 className="text-xl font-semibold text-secondary-300">
-              Tıbbi Kaydı Düzenle
+              {editMode ? 'Kullanıcıyı Düzenle' : 'Yeni Kullanıcı Ekle'}
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="flex flex-wrap -mx-4">
-                <div className="w-full md:w-1/2 px-4">
-                  <div>
-                    <label
-                      htmlFor="petId"
-                      className="block mb-2 text-secondary-300"
-                    >
-                      Evcil Hayvan
-                    </label>
-                    <select
-                      id="petId"
-                      name="petId"
-                      value={formData.petId}
-                      onChange={handleChange}
-                      className="
-                        w-full
-                        px-3
-                        py-2
-                        border
-                        rounded-md
-                        bg-secondary-800
-                        text-secondary-300
-                        focus:outline-none
-                        focus:ring-2
-                        focus:ring-primary-500
-                      "
-                      required
-                    >
-                      <option value="">Seçiniz</option>
-                      {pets.map((pet) => (
-                        <option key={pet.id} value={pet.id}>
-                          {pet.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                <div className="w-full md:w-1/2 px-4">
-                  <div>
-                    <label
-                      htmlFor="recordDate"
-                      className="block mb-2 text-secondary-300"
-                    >
-                      Kayıt Tarihi
-                    </label>
-                    <input
-                      type="date"
-                      id="recordDate"
-                      name="recordDate"
-                      value={formData.recordDate}
-                      onChange={handleChange}
-                      className="
-                        w-full
-                        px-3
-                        py-2
-                        border
-                        rounded-md
-                        bg-secondary-800
-                        text-secondary-300
-                        placeholder-secondary-400
-                        focus:outline-none
-                        focus:ring-2
-                        focus:ring-primary-500
-                      "
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
               <div>
                 <label
-                  htmlFor="description"
+                  htmlFor="username"
                   className="block mb-2 text-secondary-300"
                 >
-                  Açıklama
+                  Kullanıcı Adı
                 </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  value={formData.description}
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={formData.username}
                   onChange={handleChange}
                   className="
                     w-full
@@ -270,15 +228,108 @@ const MedicalRecordsManagement = () => {
                     focus:ring-2
                     focus:ring-primary-500
                   "
-                  placeholder="Tıbbi kayıt detayları"
+                  required
+                  placeholder="Kullanıcı adı"
                 />
+              </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-secondary-300"
+                >
+                  E-posta
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="
+                    w-full
+                    px-3
+                    py-2
+                    border
+                    rounded-md
+                    bg-secondary-800
+                    text-secondary-300
+                    placeholder-secondary-400
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-primary-500
+                  "
+                  required
+                  placeholder="E-posta adresi"
+                />
+              </div>
+              {addMode && (
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block mb-2 text-secondary-300"
+                  >
+                    Şifre
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="
+                      w-full
+                      px-3
+                      py-2
+                      border
+                      rounded-md
+                      bg-secondary-800
+                      text-secondary-300
+                      placeholder-secondary-400
+                      focus:outline-none
+                      focus:ring-2
+                      focus:ring-primary-500
+                    "
+                    required
+                    placeholder="Şifre"
+                  />
+                </div>
+              )}
+              <div>
+                <label htmlFor="role" className="block mb-2 text-secondary-300">
+                  Rol
+                </label>
+                <select
+                  id="role"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  className="
+                    w-full
+                    px-3
+                    py-2
+                    border
+                    rounded-md
+                    bg-secondary-800
+                    text-secondary-300
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-primary-500
+                  "
+                >
+                  <option value="user">Kullanıcı</option>
+                  <option value="admin">Admin</option>
+                </select>
               </div>
               <div className="flex items-center">
                 <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mr-2"
+                  className={`bg-${
+                    editMode ? 'blue' : 'accent'
+                  }-500 hover:bg-${
+                    editMode ? 'blue' : 'accent'
+                  }-600 text-white px-4 py-2 rounded-md mr-2`}
                 >
-                  Kaydet
+                  {editMode ? 'Kaydet' : 'Ekle'}
                 </button>
                 <button
                   type="button"
@@ -296,4 +347,4 @@ const MedicalRecordsManagement = () => {
   );
 };
 
-export default MedicalRecordsManagement;
+export default UserManagement;

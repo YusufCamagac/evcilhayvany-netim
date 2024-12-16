@@ -14,18 +14,24 @@ const PetsManagement = () => {
     medicalHistory: '',
   });
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchPets();
   }, []);
 
   const fetchPets = async () => {
+    setIsLoading(true);
+    setError(null);
     try {
       const response = await getPets();
       setPets(response.data);
     } catch (error) {
       console.error('Evcil hayvanlar alınamadı:', error);
-      setMessage('Evcil hayvanlar alınamadı.');
+      setError('Evcil hayvanlar alınamadı.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -41,22 +47,25 @@ const PetsManagement = () => {
     });
     setEditMode(true);
     setMessage('');
+    setError(null);
   };
 
   const handleDelete = async (petId) => {
     if (window.confirm('Evcil hayvanı silmek istediğinize emin misiniz?')) {
+      setIsLoading(true);
+      setError(null);
       try {
         await deletePet(petId);
         setPets(pets.filter((pet) => pet.id !== petId));
         setSelectedPet(null);
         setEditMode(false);
         setMessage('Evcil hayvan başarıyla silindi.');
-
-        // Mesajı temizle:
         setTimeout(() => setMessage(''), 3000);
       } catch (error) {
         console.error('Evcil hayvan silinemedi:', error);
-        setMessage('Evcil hayvan silinemedi.');
+        setError('Evcil hayvan silinemedi.');
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -67,6 +76,8 @@ const PetsManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
     if (editMode) {
       try {
         const response = await updatePet(selectedPet.id, formData);
@@ -76,12 +87,12 @@ const PetsManagement = () => {
         setSelectedPet(null);
         setEditMode(false);
         setMessage('Evcil hayvan başarıyla güncellendi.');
-
-        // Mesajı temizle:
         setTimeout(() => setMessage(''), 3000);
       } catch (error) {
         console.error('Evcil hayvan güncellenemedi:', error);
-        setMessage('Evcil hayvan güncellenemedi.');
+        setError('Evcil hayvan güncellenemedi.');
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -98,6 +109,7 @@ const PetsManagement = () => {
       medicalHistory: '',
     });
     setMessage('');
+    setError(null);
   };
 
   return (
@@ -107,8 +119,10 @@ const PetsManagement = () => {
           Evcil Hayvanları Yönet
         </h2>
 
+        {isLoading && <div className="mb-4 p-2 text-secondary-300">Yükleniyor...</div>}
+        {error && <div className="mb-4 p-2 bg-red-100 text-red-700">{error}</div>}
         {message && (
-          <div className="mb-4 p-2 bg-red-100 text-red-700">{message}</div>
+          <div className="mb-4 p-2 bg-green-100 text-green-700">{message}</div>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

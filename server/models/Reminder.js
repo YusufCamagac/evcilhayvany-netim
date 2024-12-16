@@ -25,7 +25,6 @@ const Reminder = db.define('Reminder', {
   },
 });
 
-// İlişki
 Reminder.belongsTo(Pet, { foreignKey: 'petId' });
 
 module.exports = Reminder;

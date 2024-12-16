@@ -1,16 +1,18 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
 
 const AdminLayout = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Yönetici başlığı veya kenar çubuğu eklenebilir */}
-      <main className="flex-grow">
+      <Header />
+      <main className="flex-grow bg-secondary-900">
         <div className="container mx-auto px-4 py-8">
           <Outlet />
         </div>
       </main>
-      {/* Yönetici alt bilgisi eklenebilir */}
+      <Footer />
     </div>
   );
 };

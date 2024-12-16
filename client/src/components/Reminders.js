@@ -11,15 +11,21 @@ const Reminders = () => {
   });
   const [pets, setPets] = useState([]);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchReminders = async () => {
+      setIsLoading(true);
+      setError(null);
       try {
         const response = await getReminders();
         setReminders(response.data);
       } catch (error) {
         console.error('Hatırlatıcılar alınamadı:', error);
-        setMessage('Hatırlatıcılar alınamadı.');
+        setError('Hatırlatıcılar alınamadı.');
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -29,7 +35,7 @@ const Reminders = () => {
         setPets(response.data);
       } catch (error) {
         console.error('Evcil hayvanlar alınamadı:', error);
-        setMessage('Evcil hayvanlar alınamadı.');
+        setError('Evcil hayvanlar alınamadı.');
       }
     };
 
@@ -43,6 +49,8 @@ const Reminders = () => {
 
   const handleAddReminder = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
     try {
       const response = await createReminder(newReminder);
       setReminders([...reminders, response.data]);
@@ -53,12 +61,12 @@ const Reminders = () => {
         notes: '',
       });
       setMessage('Hatırlatıcı başarıyla eklendi!');
-
-      // Mesajı temizle:
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
       console.error('Hatırlatıcı eklenemedi:', error);
-      setMessage('Hatırlatıcı eklenemedi.');
+      setError('Hatırlatıcı eklenemedi.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -68,8 +76,10 @@ const Reminders = () => {
         <h2 className="text-2xl font-bold mb-4 text-primary-500">
           Hatırlatıcılar
         </h2>
+        {isLoading && <div className="mb-4 p-2 text-secondary-300">Yükleniyor...</div>}
+        {error && <div className="mb-4 p-2 bg-red-100 text-red-700">{error}</div>}
         {message && (
-          <div className="mb-4 p-2 bg-red-100 text-red-700">{message}</div>
+          <div className="mb-4 p-2 bg-green-100 text-green-700">{message}</div>
         )}
         <form onSubmit={handleAddReminder} className="mb-8 space-y-4">
           <h3 className="text-xl font-semibold text-secondary-300">

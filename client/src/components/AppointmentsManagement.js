@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { getAppointments, updateAppointment, deleteAppointment, getPets } from '../api';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import {
+  getAppointments,
+  updateAppointment,
+  deleteAppointment,
+  getPets,
+} from '../api';
+import { TextField } from '@mui/material';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs from 'dayjs';
 
 const AppointmentsManagement = () => {
   const [appointments, setAppointments] = useState([]);
@@ -9,13 +15,14 @@ const AppointmentsManagement = () => {
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     petId: '',
-    date: new Date(),
-    time: '',
+    date: dayjs(),
     provider: '',
     reason: '',
   });
   const [message, setMessage] = useState('');
-  const [pets, setPets] = useState([]); 
+  const [pets, setPets] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPets = async () => {
@@ -24,6 +31,7 @@ const AppointmentsManagement = () => {
         setPets(response.data);
       } catch (error) {
         console.error('Evcil hayvanlar alınamadı:', error);
+        setError('Evcil hayvanlar alınamadı.');
       }
     };
     fetchPets();
@@ -31,12 +39,16 @@ const AppointmentsManagement = () => {
   }, []);
 
   const fetchAppointments = async () => {
+    setIsLoading(true);
+    setError(null);
     try {
       const response = await getAppointments();
       setAppointments(response.data);
     } catch (error) {
       console.error('Randevular alınamadı:', error);
-      setMessage('Randevular alınamadı.');
+      setError('Randevular alınamadı.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -44,29 +56,35 @@ const AppointmentsManagement = () => {
     setSelectedAppointment(appointment);
     setFormData({
       petId: appointment.petId,
-      date: new Date(appointment.date), // Tarih objesine çevir
-      time: appointment.time ? new Date(appointment.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) : '',
+      date: dayjs(appointment.date),
       provider: appointment.provider,
       reason: appointment.reason,
     });
     setEditMode(true);
     setMessage('');
+    setError(null);
   };
 
   const handleDelete = async (appointmentId) => {
     if (window.confirm('Randevuyu silmek istediğinize emin misiniz?')) {
+      setIsLoading(true);
+      setError(null);
       try {
         await deleteAppointment(appointmentId);
-        setAppointments(appointments.filter((appointment) => appointment.id !== appointmentId));
+        setAppointments(
+          appointments.filter(
+            (appointment) => appointment.id !== appointmentId
+          )
+        );
         setSelectedAppointment(null);
         setEditMode(false);
         setMessage('Randevu başarıyla silindi.');
-
-        // Mesajı temizle:
         setTimeout(() => setMessage(''), 3000);
       } catch (error) {
         console.error('Randevu silinemedi:', error);
-        setMessage('Randevu silinemedi.');
+        setError('Randevu silinemedi.');
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -75,39 +93,39 @@ const AppointmentsManagement = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleDateChange = (date) => {
-    setFormData({ ...formData, date });
+  const handleDateChange = (newDate) => {
+    setFormData({ ...formData, date: newDate });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editMode) {
-      // Güncelleme
+      setIsLoading(true);
+      setError(null);
       try {
-        // Saat bilgisini date nesnesine ekle
-        const selectedDateTime = new Date(formData.date);
-        const [hours, minutes] = formData.time.split(':');
-        selectedDateTime.setHours(parseInt(hours, 10));
-        selectedDateTime.setMinutes(parseInt(minutes, 10));
-
         const updatedAppointmentData = {
           ...formData,
-          date: selectedDateTime.toISOString(), // Tarih ve saati ISO formatına çevir
+          date: formData.date.toISOString(),
         };
 
-        const response = await updateAppointment(selectedAppointment.id, updatedAppointmentData);
+        const response = await updateAppointment(
+          selectedAppointment.id,
+          updatedAppointmentData
+        );
         setAppointments(
-          appointments.map((appointment) => (appointment.id === selectedAppointment.id ? response.data : appointment))
+          appointments.map((appointment) =>
+            appointment.id === selectedAppointment.id ? response.data : appointment
+          )
         );
         setSelectedAppointment(null);
         setEditMode(false);
         setMessage('Randevu başarıyla güncellendi.');
-
-        // Mesajı temizle:
         setTimeout(() => setMessage(''), 3000);
       } catch (error) {
         console.error('Randevu güncellenemedi:', error);
-        setMessage('Randevu güncellenemedi.');
+        setError('Randevu güncellenemedi.');
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -117,12 +135,12 @@ const AppointmentsManagement = () => {
     setSelectedAppointment(null);
     setFormData({
       petId: '',
-      date: new Date(),
-      time: '',
+      date: dayjs(),
       provider: '',
       reason: '',
     });
     setMessage('');
+    setError(null);
   };
 
   return (
@@ -132,41 +150,49 @@ const AppointmentsManagement = () => {
           Randevuları Yönet
         </h2>
 
+        {isLoading && (
+          <div className="mb-4 p-2 text-secondary-300">Yükleniyor...</div>
+        )}
+        {error && <div className="mb-4 p-2 bg-red-100 text-red-700">{error}</div>}
         {message && (
-          <div className="mb-4 p-2 bg-red-100 text-red-700">{message}</div>
+          <div className="mb-4 p-2 bg-green-100 text-green-700">{message}</div>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {appointments.map((appointment) => {
             const pet = pets.find((p) => p.id === appointment.petId);
             return (
-            <div key={appointment.id} className="p-4 border rounded-lg shadow-md bg-secondary-800">
-              <p className="font-semibold text-secondary-300">
-                Evcil Hayvan: {pet ? pet.name : 'Bilinmiyor'}
-              </p>
-              <p className="text-secondary-300">
-                Tarih: {new Date(appointment.date).toLocaleDateString()}
-              </p>
-              <p className="text-secondary-300">Saat: {appointment.time}</p>
-              <p className="text-secondary-300">Sağlayıcı: {appointment.provider}</p>
-              <p className="text-secondary-300">Sebep: {appointment.reason}</p>
-              <div className="mt-2">
-                <button
-                  onClick={() => handleEdit(appointment)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md mr-2"
-                >
-                  Düzenle
-                </button>
-                <button
-                  onClick={() => handleDelete(appointment.id)}
-                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
-                >
-                  Sil
-                </button>
+              <div
+                key={appointment.id}
+                className="p-4 border rounded-lg shadow-md bg-secondary-800"
+              >
+                <p className="font-semibold text-secondary-300">
+                  Evcil Hayvan: {pet ? pet.name : 'Bilinmiyor'}
+                </p>
+                <p className="text-secondary-300">
+                  Tarih: {dayjs(appointment.date).format('DD.MM.YYYY HH:mm')}
+                </p>
+                <p className="text-secondary-300">
+                  Sağlayıcı: {appointment.provider}
+                </p>
+                <p className="text-secondary-300">Sebep: {appointment.reason}</p>
+                <div className="mt-2">
+                  <button
+                    onClick={() => handleEdit(appointment)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md mr-2"
+                  >
+                    Düzenle
+                  </button>
+                  <button
+                    onClick={() => handleDelete(appointment.id)}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
+                  >
+                    Sil
+                  </button>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
         </div>
 
         {editMode && (
@@ -246,18 +272,28 @@ const AppointmentsManagement = () => {
                 </div>
               </div>
               <div className="flex flex-wrap -mx-4">
-                <div className="w-full md:w-1/2 px-4">
+                <div className="w-full px-4">
                   <div>
                     <label
                       htmlFor="date"
                       className="block mb-2 text-secondary-300"
                     >
-                      Tarih
+                      Tarih ve Saat
                     </label>
-                    <DatePicker
-                      selected={formData.date}
+                    <DateTimePicker
+                      name="date"
+                      value={formData.date}
                       onChange={handleDateChange}
-                      dateFormat="yyyy-MM-dd"
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          fullWidth
+                          InputProps={{
+                            className: 'bg-secondary-800 text-secondary-300',
+                            style: { color: 'white' },
+                          }}
+                        />
+                      )}
                       className="
                         w-full
                         px-3
@@ -271,36 +307,25 @@ const AppointmentsManagement = () => {
                         focus:ring-primary-500
                       "
                       required
-                    />
-                  </div>
-                </div>
-                <div className="w-full md:w-1/2 px-4">
-                  <div>
-                    <label
-                      htmlFor="time"
-                      className="block mb-2 text-secondary-300"
-                    >
-                      Saat
-                    </label>
-                    <input
-                      type="time"
-                      id="time"
-                      name="time"
-                      value={formData.time}
-                      onChange={handleChange}
-                      className="
-                        w-full
-                        px-3
-                        py-2
-                        border
-                        rounded-md
-                        bg-secondary-800
-                        text-secondary-300
-                        focus:outline-none
-                        focus:ring-2
-                        focus:ring-primary-500
-                      "
-                      required
+                      slotProps={{
+                        textField: {
+                          variant: 'outlined',
+                          fullWidth: true,
+                          margin: 'normal',
+                          required: true,
+                          name: 'date',
+                          InputLabelProps: {
+                            className: 'text-secondary-300',
+                          },
+                          InputProps: {
+                            className: 'text-secondary-300',
+                          },
+                          inputProps: {
+                            className:
+                              'bg-secondary-800 text-secondary-300 placeholder-secondary-400',
+                          },
+                        },
+                      }}
                     />
                   </div>
                 </div>

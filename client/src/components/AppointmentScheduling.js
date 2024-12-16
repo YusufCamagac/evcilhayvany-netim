@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { createAppointment, getPets } from '../api';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { TextField } from '@mui/material';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs from 'dayjs';
 
 const AppointmentScheduling = () => {
   const [appointment, setAppointment] = useState({
     petId: '',
-    date: new Date(),
+    date: dayjs(),
     time: '',
     provider: '',
     reason: '',
@@ -26,39 +27,41 @@ const AppointmentScheduling = () => {
     fetchPets();
   }, []);
 
-  const handleDateChange = (date) => {
-    setAppointment({ ...appointment, date });
+  const handleDateChange = (newDate) => {
+    setAppointment({ ...appointment, date: newDate });
   };
 
   const handleChange = (e) => {
-    setAppointment({ ...appointment, [e.target.name]: e.target.value });
+    if (e.target.name === 'time') {
+      const [hours, minutes] = e.target.value.split(':');
+      const newTime = dayjs()
+        .set('hour', hours)
+        .set('minute', minutes)
+        .set('second', 0);
+      setAppointment({ ...appointment, date: newTime });
+    } else {
+      setAppointment({ ...appointment, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Saat bilgisini date nesnesine ekle
-      const selectedDateTime = new Date(appointment.date);
-      const [hours, minutes] = appointment.time.split(':');
-      selectedDateTime.setHours(parseInt(hours, 10));
-      selectedDateTime.setMinutes(parseInt(minutes, 10));
-
       const appointmentData = {
         ...appointment,
-        date: selectedDateTime.toISOString(), // Tarih ve saati ISO formatına çevir
+        date: appointment.date.toISOString(),
       };
 
       const response = await createAppointment(appointmentData);
       setMessage('Randevu başarıyla oluşturuldu!');
       setAppointment({
         petId: '',
-        date: new Date(),
+        date: dayjs(),
         time: '',
         provider: '',
         reason: '',
       });
 
-      // Mesajı temizle:
       setTimeout(() => setMessage(''), 3000);
 
       console.log(response.data);
@@ -79,7 +82,10 @@ const AppointmentScheduling = () => {
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="petId" className="block mb-2 text-secondary-300">
+            <label
+              htmlFor="petId"
+              className="block mb-2 text-secondary-300"
+            >
               Evcil Hayvan
             </label>
             <select
@@ -110,18 +116,28 @@ const AppointmentScheduling = () => {
             </select>
           </div>
           <div className="flex flex-wrap -mx-4">
-            <div className="w-full md:w-1/2 px-4">
+            <div className="w-full px-4">
               <div>
                 <label
                   htmlFor="date"
                   className="block mb-2 text-secondary-300"
                 >
-                  Tarih
+                  Tarih ve Saat
                 </label>
-                <DatePicker
-                  selected={appointment.date}
+                <DateTimePicker
+                  name="date"
+                  value={appointment.date}
                   onChange={handleDateChange}
-                  dateFormat="yyyy-MM-dd"
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      fullWidth
+                      InputProps={{
+                        className: 'bg-secondary-800 text-secondary-300',
+                        style: { color: 'white' },
+                      }}
+                    />
+                  )}
                   className="
                     w-full
                     px-3
@@ -135,36 +151,25 @@ const AppointmentScheduling = () => {
                     focus:ring-primary-500
                   "
                   required
-                />
-              </div>
-            </div>
-            <div className="w-full md:w-1/2 px-4">
-              <div>
-                <label
-                  htmlFor="time"
-                  className="block mb-2 text-secondary-300"
-                >
-                  Saat
-                </label>
-                <input
-                  type="time"
-                  id="time"
-                  name="time"
-                  value={appointment.time}
-                  onChange={handleChange}
-                  className="
-                    w-full
-                    px-3
-                    py-2
-                    border
-                    rounded-md
-                    bg-secondary-800
-                    text-secondary-300
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-primary-500
-                  "
-                  required
+                  slotProps={{
+                    textField: {
+                      variant: 'outlined',
+                      fullWidth: true,
+                      margin: 'normal',
+                      required: true,
+                      name: 'date',
+                      InputLabelProps: {
+                        className: 'text-secondary-300',
+                      },
+                      InputProps: {
+                        className: 'text-secondary-300',
+                      },
+                      inputProps: {
+                        className:
+                          'bg-secondary-800 text-secondary-300 placeholder-secondary-400',
+                      },
+                    },
+                  }}
                 />
               </div>
             </div>
@@ -196,7 +201,7 @@ const AppointmentScheduling = () => {
                 focus:ring-primary-500
               "
               required
-              placeholder="Veteriner, Tımarlayıcı vb."
+              placeholder="Veteriner adı"
             />
           </div>
           <div>
@@ -224,7 +229,7 @@ const AppointmentScheduling = () => {
                 focus:ring-2
                 focus:ring-primary-500
               "
-              placeholder="Randevu nedeninizi buraya yazın"
+              placeholder="Randevu nedeninizi kısaca açıklayınız"
             />
           </div>
           <button

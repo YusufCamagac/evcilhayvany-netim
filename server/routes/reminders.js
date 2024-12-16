@@ -7,7 +7,7 @@ const Pet = require('../models/Pet');
 router.get('/', async (req, res) => {
   try {
     const reminders = await Reminder.findAll({
-      include: [{ model: Pet, attributes: ['name'] }], // Evcil hayvanın adını da getir
+      include: [{ model: Pet, attributes: ['name'] }],
     });
     res.json(reminders);
   } catch (err) {

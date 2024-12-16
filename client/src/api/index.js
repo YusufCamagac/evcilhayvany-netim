@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000/api'; // Arka uç API'sinin temel URL'si
+const API_BASE_URL = 'http://localhost:5000/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -33,5 +33,11 @@ export const getUserById = (id) => api.get(`/users/${id}`);
 export const createUser = (userData) => api.post('/users', userData);
 export const updateUser = (id, userData) => api.put(`/users/${id}`, userData);
 export const deleteUser = (id) => api.delete(`/users/${id}`);
+
+// Hatırlatıcılar
+export const getReminders = () => api.get('/reminders');
+export const createReminder = (reminderData) => api.post('/reminders', reminderData);
+export const updateReminder = (id, reminderData) => api.put(`/reminders/${id}`, reminderData);
+export const deleteReminder = (id) => api.delete(`/reminders/${id}`);
 
 export default api;
