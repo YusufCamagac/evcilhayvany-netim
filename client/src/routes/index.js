@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import HomePage from '../components/HomePage';
 import PetRegistration from '../components/PetRegistration';
 import AppointmentScheduling from '../components/AppointmentScheduling';
@@ -10,36 +10,71 @@ import AdminManagement from '../components/AdminManagement';
 import PetsManagement from '../components/PetsManagement';
 import AppointmentsManagement from '../components/AppointmentsManagement';
 import MedicalRecordsManagement from '../components/MedicalRecordsManagement';
+import PrivateRoute from '../components/PrivateRoute';
+import Login from '../components/Login';
 import MainLayout from '../layouts/MainLayout';
 import AdminLayout from '../layouts/AdminLayout';
+import Register from '../components/Register';
 
 const AppRoutes = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="pet-registration" element={<PetRegistration />} />
-          <Route
-            path="appointment-scheduling"
-            element={<AppointmentScheduling />}
-          />
-          <Route path="medical-records" element={<MedicalRecords />} />
-          <Route path="reminders" element={<Reminders />} />
-          <Route path="user-management" element={<UserManagement />} />
-        </Route>
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminManagement />} />
-          <Route path="users" element={<UserManagement />} />
-          <Route path="pets" element={<PetsManagement />} />
-          <Route path="appointments" element={<AppointmentsManagement />} />
-          <Route
-            path="medical-records"
-            element={<MedicalRecordsManagement />}
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="pet-registration" element={<PetRegistration />} />
+        <Route
+          path="appointment-scheduling"
+          element={<AppointmentScheduling />}
+        />
+        <Route path="medical-records" element={<MedicalRecords />} />
+        <Route path="reminders" element={<Reminders />} />
+        <Route path="user-management" element={<UserManagement />} />
+        <Route path="register" element={<Register />} />
+        <Route path="login" element={<Login />} />
+      </Route>
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route
+          index
+          element={
+            <PrivateRoute>
+              <AdminManagement />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="users"
+          element={
+            <PrivateRoute>
+              <UserManagement />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="pets"
+          element={
+            <PrivateRoute>
+              <PetsManagement />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="appointments"
+          element={
+            <PrivateRoute>
+              <AppointmentsManagement />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="medical-records"
+          element={
+            <PrivateRoute>
+              <MedicalRecordsManagement />
+            </PrivateRoute>
+          }
+        />
+      </Route>
+    </Routes>
   );
 };
 
