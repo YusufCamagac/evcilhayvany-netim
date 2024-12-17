@@ -32,9 +32,9 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-secondary-900 p-4 min-h-screen flex justify-center items-center">
-      <div className="bg-secondary-800 p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold mb-4 text-primary-500">Giriş Yap</h2>
+    <div className="bg-background p-4 min-h-screen flex justify-center items-center">
+      <div className="bg-card-bg p-8 rounded-lg shadow-lg w-96">
+        <h2 className="text-2xl font-bold mb-4 text-yellow-400">Giriş Yap</h2>
         {message && (
           <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
             {message}
@@ -44,7 +44,7 @@ const Login = () => {
           <div>
             <label
               htmlFor="username"
-              className="block mb-2 text-secondary-300"
+              className="block mb-2 text-gray-100"
             >
               Kullanıcı Adı
             </label>
@@ -60,12 +60,12 @@ const Login = () => {
                 py-2
                 border
                 rounded-md
-                bg-secondary-700
-                text-secondary-300
-                placeholder-secondary-400
+                bg-gray-700
+                text-gray-100
+                placeholder-gray-400
                 focus:outline-none
                 focus:ring-2
-                focus:ring-primary-500
+                focus:ring-yellow-400
               "
               required
               placeholder="Kullanıcı adınızı girin"
@@ -74,7 +74,7 @@ const Login = () => {
           <div>
             <label
               htmlFor="password"
-              className="block mb-2 text-secondary-300"
+              className="block mb-2 text-gray-100"
             >
               Şifre
             </label>
@@ -90,12 +90,12 @@ const Login = () => {
                 py-2
                 border
                 rounded-md
-                bg-secondary-700
-                text-secondary-300
-                placeholder-secondary-400
+                bg-gray-700
+                text-gray-100
+                placeholder-gray-400
                 focus:outline-none
                 focus:ring-2
-                focus:ring-primary-500
+                focus:ring-yellow-400
               "
               required
               placeholder="Şifrenizi girin"
@@ -103,7 +103,7 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="bg-accent-500 hover:bg-accent-600 text-white px-4 py-2 rounded-md"
+            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-md"
           >
             Giriş Yap
           </button>
@@ -114,3 +114,4 @@ const Login = () => {
 };
 
 export default Login;
+

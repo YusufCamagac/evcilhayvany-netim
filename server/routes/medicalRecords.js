@@ -7,7 +7,7 @@ const Pet = require('../models/Pet');
 router.get('/', async (req, res) => {
   try {
     const medicalRecords = await MedicalRecord.findAll({
-        include: [{ model: Pet, attributes: ['name'] }], // Evcil hayvanın adını da getir
+      include: [{ model: Pet, attributes: ['name'] }],
     });
     res.json(medicalRecords);
   } catch (err) {

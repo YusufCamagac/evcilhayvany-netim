@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
       breed,
       age,
       gender,
-      medicalHistory
+      medicalHistory,
     });
 
     res.json(newPet);
@@ -48,7 +48,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Evcil hayvanı güncelle (PUT /api/pets/:id)
+// Evcil hayvanı güncelle (PUT /api/api/pets/:id)
 router.put('/:id', async (req, res) => {
   const { name, species, breed, age, gender, medicalHistory } = req.body;
 

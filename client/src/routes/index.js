@@ -28,7 +28,6 @@ const AppRoutes = () => {
         />
         <Route path="medical-records" element={<MedicalRecords />} />
         <Route path="reminders" element={<Reminders />} />
-        <Route path="user-management" element={<UserManagement />} />
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
       </Route>
@@ -74,6 +73,7 @@ const AppRoutes = () => {
           }
         />
       </Route>
+      <Route path="*" element={<h1>404 Not Found</h1>}></Route>
     </Routes>
   );
 };

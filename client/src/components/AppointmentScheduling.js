@@ -72,9 +72,9 @@ const AppointmentScheduling = () => {
   };
 
   return (
-    <div className="bg-secondary-900">
+    <div className="bg-background">
       <div className="container mx-auto p-4">
-        <h2 className="text-2xl font-bold mb-4 text-primary-500">
+        <h2 className="text-2xl font-bold mb-4 text-yellow-400">
           Randevu Alma
         </h2>
         {message && (
@@ -84,7 +84,7 @@ const AppointmentScheduling = () => {
           <div>
             <label
               htmlFor="petId"
-              className="block mb-2 text-secondary-300"
+              className="block mb-2 text-gray-100"
             >
               Evcil Hayvan
             </label>
@@ -99,11 +99,11 @@ const AppointmentScheduling = () => {
                 py-2
                 border
                 rounded-md
-                bg-secondary-800
-                text-secondary-300
+                bg-gray-700
+                text-gray-100
                 focus:outline-none
                 focus:ring-2
-                focus:ring-primary-500
+                focus:ring-yellow-400
               "
               required
             >
@@ -120,7 +120,7 @@ const AppointmentScheduling = () => {
               <div>
                 <label
                   htmlFor="date"
-                  className="block mb-2 text-secondary-300"
+                  className="block mb-2 text-gray-100"
                 >
                   Tarih ve Saat
                 </label>
@@ -133,7 +133,7 @@ const AppointmentScheduling = () => {
                       {...params}
                       fullWidth
                       InputProps={{
-                        className: 'bg-secondary-800 text-secondary-300',
+                        className: 'bg-gray-700 text-gray-100',
                         style: { color: 'white' },
                       }}
                     />
@@ -144,11 +144,11 @@ const AppointmentScheduling = () => {
                     py-2
                     border
                     rounded-md
-                    bg-secondary-800
-                    text-secondary-300
+                    bg-gray-700
+                    text-gray-100
                     focus:outline-none
                     focus:ring-2
-                    focus:ring-primary-500
+                    focus:ring-yellow-400
                   "
                   required
                   slotProps={{
@@ -159,14 +159,14 @@ const AppointmentScheduling = () => {
                       required: true,
                       name: 'date',
                       InputLabelProps: {
-                        className: 'text-secondary-300',
+                        className: 'text-gray-100',
                       },
                       InputProps: {
-                        className: 'text-secondary-300',
+                        className: 'text-gray-100',
                       },
                       inputProps: {
                         className:
-                          'bg-secondary-800 text-secondary-300 placeholder-secondary-400',
+                          'bg-gray-700 text-gray-100 placeholder-gray-400',
                       },
                     },
                   }}
@@ -177,7 +177,7 @@ const AppointmentScheduling = () => {
           <div>
             <label
               htmlFor="provider"
-              className="block mb-2 text-secondary-300"
+              className="block mb-2 text-gray-100"
             >
               Sağlayıcı
             </label>
@@ -193,12 +193,12 @@ const AppointmentScheduling = () => {
                 py-2
                 border
                 rounded-md
-                bg-secondary-800
-                text-secondary-300
-                placeholder-secondary-400
+                bg-gray-700
+                text-gray-100
+                placeholder-gray-400
                 focus:outline-none
                 focus:ring-2
-                focus:ring-primary-500
+                focus:ring-yellow-400
               "
               required
               placeholder="Veteriner adı"
@@ -207,7 +207,7 @@ const AppointmentScheduling = () => {
           <div>
             <label
               htmlFor="reason"
-              className="block mb-2 text-secondary-300"
+              className="block mb-2 text-gray-100"
             >
               Randevu Nedeni
             </label>
@@ -222,19 +222,19 @@ const AppointmentScheduling = () => {
                 py-2
                 border
                 rounded-md
-                bg-secondary-800
-                text-secondary-300
-                placeholder-secondary-400
+                bg-gray-700
+                text-gray-100
+                placeholder-gray-400
                 focus:outline-none
                 focus:ring-2
-                focus:ring-primary-500
+                focus:ring-yellow-400
               "
               placeholder="Randevu nedeninizi kısaca açıklayınız"
             />
           </div>
           <button
             type="submit"
-            className="bg-accent-500 hover:bg-accent-600 text-white px-4 py-2 rounded-md"
+            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-md"
           >
             Randevu Oluştur
           </button>

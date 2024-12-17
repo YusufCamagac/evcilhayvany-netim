@@ -113,13 +113,13 @@ const PetsManagement = () => {
   };
 
   return (
-    <div className="bg-secondary-900 p-4">
+    <div className="bg-background p-4">
       <div className="container mx-auto">
-        <h2 className="text-2xl font-bold mb-4 text-primary-500">
+        <h2 className="text-2xl font-bold mb-4 text-yellow-400">
           Evcil Hayvanları Yönet
         </h2>
 
-        {isLoading && <div className="mb-4 p-2 text-secondary-300">Yükleniyor...</div>}
+        {isLoading && <div className="mb-4 p-2 text-gray-100">Yükleniyor...</div>}
         {error && <div className="mb-4 p-2 bg-red-100 text-red-700">{error}</div>}
         {message && (
           <div className="mb-4 p-2 bg-green-100 text-green-700">{message}</div>
@@ -129,16 +129,16 @@ const PetsManagement = () => {
           {pets.map((pet) => (
             <div
               key={pet.id}
-              className="p-4 border rounded-lg shadow-md bg-secondary-800"
+              className="p-4 border rounded-lg shadow-md bg-card-bg"
             >
-              <p className="font-semibold text-secondary-300">
+              <p className="font-semibold text-gray-100">
                 İsim: {pet.name}
               </p>
-              <p className="text-secondary-300">Tür: {pet.species}</p>
-              <p className="text-secondary-300">Cins: {pet.breed}</p>
-              <p className="text-secondary-300">Yaş: {pet.age}</p>
-              <p className="text-secondary-300">Cinsiyet: {pet.gender}</p>
-              <p className="text-secondary-300">
+              <p className="text-gray-100">Tür: {pet.species}</p>
+              <p className="text-gray-100">Cins: {pet.breed}</p>
+              <p className="text-gray-100">Yaş: {pet.age}</p>
+              <p className="text-gray-100">Cinsiyet: {pet.gender}</p>
+              <p className="text-gray-100">
                 Tıbbi Geçmiş: {pet.medicalHistory}
               </p>
               <div className="mt-2">
@@ -161,7 +161,7 @@ const PetsManagement = () => {
 
         {editMode && (
           <div className="mt-8">
-            <h3 className="text-xl font-semibold text-secondary-300">
+            <h3 className="text-xl font-semibold text-gray-100">
               Evcil Hayvan Düzenle
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -170,7 +170,7 @@ const PetsManagement = () => {
                   <div>
                     <label
                       htmlFor="name"
-                      className="block mb-2 text-secondary-300"
+                      className="block mb-2 text-gray-100"
                     >
                       İsim
                     </label>
@@ -186,12 +186,12 @@ const PetsManagement = () => {
                         py-2
                         border
                         rounded-md
-                        bg-secondary-800
-                        text-secondary-300
-                        placeholder-secondary-400
+                        bg-gray-700
+                        text-gray-100
+                        placeholder-gray-400
                         focus:outline-none
                         focus:ring-2
-                        focus:ring-primary-500
+                        focus:ring-yellow-400
                       "
                       required
                       placeholder="Evcil hayvanın adı"
@@ -202,7 +202,7 @@ const PetsManagement = () => {
                   <div>
                     <label
                       htmlFor="species"
-                      className="block mb-2 text-secondary-300"
+                      className="block mb-2 text-gray-100"
                     >
                       Tür
                     </label>
@@ -218,12 +218,12 @@ const PetsManagement = () => {
                         py-2
                         border
                         rounded-md
-                        bg-secondary-800
-                        text-secondary-300
-                        placeholder-secondary-400
+                        bg-gray-700
+                        text-gray-100
+                        placeholder-gray-400
                         focus:outline-none
                         focus:ring-2
-                        focus:ring-primary-500
+                        focus:ring-yellow-400
                       "
                       required
                       placeholder="Örn: Kedi, Köpek"
@@ -236,7 +236,7 @@ const PetsManagement = () => {
                   <div>
                     <label
                       htmlFor="breed"
-                      className="block mb-2 text-secondary-300"
+                      className="block mb-2 text-gray-100"
                     >
                       Cins
                     </label>
@@ -252,12 +252,12 @@ const PetsManagement = () => {
                         py-2
                         border
                         rounded-md
-                        bg-secondary-800
-                        text-secondary-300
-                        placeholder-secondary-400
+                        bg-gray-700
+                        text-gray-100
+                        placeholder-gray-400
                         focus:outline-none
                         focus:ring-2
-                        focus:ring-primary-500
+                        focus:ring-yellow-400
                       "
                       placeholder="Örn: Siyam, Golden Retriever"
                     />
@@ -267,7 +267,7 @@ const PetsManagement = () => {
                   <div>
                     <label
                       htmlFor="age"
-                      className="block mb-2 text-secondary-300"
+                      className="block mb-2 text-gray-100"
                     >
                       Yaş
                     </label>
@@ -283,12 +283,12 @@ const PetsManagement = () => {
                         py-2
                         border
                         rounded-md
-                        bg-secondary-800
-                        text-secondary-300
-                        placeholder-secondary-400
+                        bg-gray-700
+                        text-gray-100
+                        placeholder-gray-400
                         focus:outline-none
                         focus:ring-2
-                        focus:ring-primary-500
+                        focus:ring-yellow-400
                       "
                       required
                       min="0"
@@ -303,7 +303,7 @@ const PetsManagement = () => {
                   <div>
                     <label
                       htmlFor="gender"
-                      className="block mb-2 text-secondary-300"
+                      className="block mb-2 text-gray-100"
                     >
                       Cinsiyet
                     </label>
@@ -318,11 +318,11 @@ const PetsManagement = () => {
                         py-2
                         border
                         rounded-md
-                        bg-secondary-800
-                        text-secondary-300
+                        bg-gray-700
+                        text-gray-100
                         focus:outline-none
                         focus:ring-2
-                        focus:ring-primary-500
+                        focus:ring-yellow-400
                       "
                       required
                     >
@@ -336,7 +336,7 @@ const PetsManagement = () => {
               <div>
                 <label
                   htmlFor="medicalHistory"
-                  className="block mb-2 text-secondary-300"
+                  className="block mb-2 text-gray-100"
                 >
                   Tıbbi Geçmiş
                 </label>
@@ -351,12 +351,12 @@ const PetsManagement = () => {
                     py-2
                     border
                     rounded-md
-                    bg-secondary-800
-                    text-secondary-300
-                    placeholder-secondary-400
+                    bg-gray-700
+                    text-gray-100
+                    placeholder-gray-400
                     focus:outline-none
                     focus:ring-2
-                    focus:ring-primary-500
+                    focus:ring-yellow-400
                   "
                   placeholder="Evcil hayvanın tıbbi geçmişi"
                 />
@@ -364,7 +364,7 @@ const PetsManagement = () => {
               <div className="flex items-center">
                 <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mr-2"
+                  className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-md mr-2"
                 >
                   Kaydet
                 </button>

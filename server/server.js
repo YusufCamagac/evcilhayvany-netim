@@ -8,7 +8,7 @@ const petRoutes = require('./routes/pets');
 const appointmentRoutes = require('./routes/appointments');
 const medicalRecordRoutes = require('./routes/medicalRecords');
 const userRoutes = require('./routes/users');
-const reminderRoutes = require('./routes/reminders'); // Yeni eklenen hatırlatıcı rotaları
+const reminderRoutes = require('./routes/reminders');
 
 const app = express();
 
@@ -28,7 +28,7 @@ app.use('/api/pets', petRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/medical-records', medicalRecordRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/reminders', reminderRoutes); // Yeni eklenen hatırlatıcı rotaları
+app.use('/api/reminders', reminderRoutes);
 
 // Modellerin Senkronize Edilmesi (Tabloları oluşturur)
 db.sync({ force: false }) // force: true KULLANMAYIN! Tabloları siler ve yeniden oluşturur.

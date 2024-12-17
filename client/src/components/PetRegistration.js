@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createPet } from '../api';
-import kadinVeKopek from '../assents/resim3.jpg'; // Eklenen görsel
+import kadinVeKopek from '../assents/resim3.jpg';
 
 const PetRegistration = () => {
   const [pet, setPet] = useState({
@@ -32,7 +32,6 @@ const PetRegistration = () => {
       });
       console.log(response.data);
 
-      // Mesajı temizle:
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
       setMessage('Evcil hayvan kaydedilemedi.');
@@ -41,7 +40,7 @@ const PetRegistration = () => {
   };
 
   return (
-    <div className="bg-secondary-900">
+    <div className="bg-background">
       <div className="container mx-auto p-4">
         <div className="flex flex-wrap -mx-4">
           <div className="w-full lg:w-1/2 px-4">
@@ -50,10 +49,10 @@ const PetRegistration = () => {
               alt="Evcil Hayvan Kaydı"
               className="w-full rounded-lg shadow-lg mb-4"
             />
-            <h2 className="text-2xl font-bold mb-4 text-primary-500">
+            <h2 className="text-2xl font-bold mb-4 text-yellow-400">
               Evcil Hayvan Kaydı
             </h2>
-            <p className="text-secondary-300 mb-4">
+            <p className="text-gray-100 mb-4">
               Evcil hayvanınızın bilgilerini aşağıya girerek onu kaydedin ve
               sağlık takibini kolaylaştırın.
             </p>
@@ -70,7 +69,7 @@ const PetRegistration = () => {
                   <div>
                     <label
                       htmlFor="name"
-                      className="block mb-2 text-secondary-300"
+                      className="block mb-2 text-gray-100"
                     >
                       Ad
                     </label>
@@ -86,12 +85,12 @@ const PetRegistration = () => {
                         py-2
                         border
                         rounded-md
-                        bg-secondary-800
-                        text-secondary-300
-                        placeholder-secondary-400
+                        bg-gray-700
+                        text-gray-100
+                        placeholder-gray-400
                         focus:outline-none
                         focus:ring-2
-                        focus:ring-primary-500
+                        focus:ring-yellow-400
                       "
                       required
                       placeholder="Evcil hayvanınızın adı"
@@ -102,7 +101,7 @@ const PetRegistration = () => {
                   <div>
                     <label
                       htmlFor="species"
-                      className="block mb-2 text-secondary-300"
+                      className="block mb-2 text-gray-100"
                     >
                       Tür
                     </label>
@@ -118,12 +117,12 @@ const PetRegistration = () => {
                         py-2
                         border
                         rounded-md
-                        bg-secondary-800
-                        text-secondary-300
-                        placeholder-secondary-400
+                        bg-gray-700
+                        text-gray-100
+                        placeholder-gray-400
                         focus:outline-none
                         focus:ring-2
-                        focus:ring-primary-500
+                        focus:ring-yellow-400
                       "
                       required
                       placeholder="Örn: Kedi, Köpek"
@@ -137,7 +136,7 @@ const PetRegistration = () => {
                   <div>
                     <label
                       htmlFor="breed"
-                      className="block mb-2 text-secondary-300"
+                      className="block mb-2 text-gray-100"
                     >
                       Irk
                     </label>
@@ -153,12 +152,12 @@ const PetRegistration = () => {
                         py-2
                         border
                         rounded-md
-                        bg-secondary-800
-                        text-secondary-300
-                        placeholder-secondary-400
+                        bg-gray-700
+                        text-gray-100
+                        placeholder-gray-400
                         focus:outline-none
                         focus:ring-2
-                        focus:ring-primary-500
+                        focus:ring-yellow-400
                       "
                       placeholder="Örn: Siyam, Golden Retriever"
                     />
@@ -168,7 +167,7 @@ const PetRegistration = () => {
                   <div>
                     <label
                       htmlFor="age"
-                      className="block mb-2 text-secondary-300"
+                      className="block mb-2 text-gray-100"
                     >
                       Yaş
                     </label>
@@ -184,12 +183,12 @@ const PetRegistration = () => {
                         py-2
                         border
                         rounded-md
-                        bg-secondary-800
-                        text-secondary-300
-                        placeholder-secondary-400
+                        bg-gray-700
+                        text-gray-100
+                        placeholder-gray-400
                         focus:outline-none
                         focus:ring-2
-                        focus:ring-primary-500
+                        focus:ring-yellow-400
                       "
                       required
                       min="0"
@@ -205,7 +204,7 @@ const PetRegistration = () => {
                   <div>
                     <label
                       htmlFor="gender"
-                      className="block mb-2 text-secondary-300"
+                      className="block mb-2 text-gray-100"
                     >
                       Cinsiyet
                     </label>
@@ -220,11 +219,11 @@ const PetRegistration = () => {
                         py-2
                         border
                         rounded-md
-                        bg-secondary-800
-                        text-secondary-300
+                        bg-gray-700
+                        text-gray-100
                         focus:outline-none
                         focus:ring-2
-                        focus:ring-primary-500
+                        focus:ring-yellow-400
                       "
                       required
                     >
@@ -239,7 +238,7 @@ const PetRegistration = () => {
               <div>
                 <label
                   htmlFor="medicalHistory"
-                  className="block mb-2 text-secondary-300"
+                  className="block mb-2 text-gray-100"
                 >
                   Tıbbi Geçmiş
                 </label>
@@ -254,19 +253,19 @@ const PetRegistration = () => {
                     py-2
                     border
                     rounded-md
-                    bg-secondary-800
-                    text-secondary-300
-                    placeholder-secondary-400
+                    bg-gray-700
+                    text-gray-100
+                    placeholder-gray-400
                     focus:outline-none
                     focus:ring-2
-                    focus:ring-primary-500
+                    focus:ring-yellow-400
                   "
                   placeholder="Evcil hayvanınızın tıbbi geçmişi"
                 />
               </div>
               <button
                 type="submit"
-                className="bg-accent-500 hover:bg-accent-600 text-white px-4 py-2 rounded-md"
+                className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-md"
               >
                 Kaydet
               </button>

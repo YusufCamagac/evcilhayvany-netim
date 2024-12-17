@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Appointment = require('../models/Appointment');
 const Pet = require('../models/Pet');
+const dayjs = require('dayjs');
 
 // Tüm randevuları getir (GET /api/appointments)
 router.get('/', async (req, res) => {
   try {
     const appointments = await Appointment.findAll({
-        include: [{ model: Pet, attributes: ['name'] }], // Evcil hayvanın adını da getir
+      include: [{ model: Pet, attributes: ['name'] }],
     });
     res.json(appointments);
   } catch (err) {
@@ -18,13 +19,12 @@ router.get('/', async (req, res) => {
 
 // Yeni bir randevu oluştur (POST /api/appointments)
 router.post('/', async (req, res) => {
-  const { petId, date, time, provider, reason } = req.body;
+  const { petId, date, provider, reason } = req.body;
 
   try {
     const newAppointment = await Appointment.create({
       petId,
       date,
-      time,
       provider,
       reason,
     });
@@ -52,7 +52,7 @@ router.get('/:id', async (req, res) => {
 
 // Randevuyu güncelle (PUT /api/appointments/:id)
 router.put('/:id', async (req, res) => {
-  const { petId, date, time, provider, reason } = req.body;
+  const { petId, date, provider, reason } = req.body;
 
   try {
     let appointment = await Appointment.findByPk(req.params.id);
@@ -61,8 +61,7 @@ router.put('/:id', async (req, res) => {
     }
 
     appointment.petId = petId;
-    appointment.date = date;
-    appointment.time = time;
+    appointment.date =  dayjs(date).toISOString();
     appointment.provider = provider;
     appointment.reason = reason;
 

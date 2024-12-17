@@ -73,20 +73,20 @@ const MedicalRecords = () => {
   };
 
   return (
-    <div className="bg-secondary-900 p-4">
+    <div className="bg-background p-4">
       <div className="container mx-auto">
-        <h2 className="text-2xl font-bold mb-4 text-primary-500">
+        <h2 className="text-2xl font-bold mb-4 text-yellow-400">
           Tıbbi Kayıtlar
         </h2>
 
-        {isLoading && <div className="mb-4 p-2 text-secondary-300">Yükleniyor...</div>}
+        {isLoading && <div className="mb-4 p-2 text-gray-100">Yükleniyor...</div>}
         {error && <div className="mb-4 p-2 bg-red-100 text-red-700">{error}</div>}
         {message && (
           <div className="mb-4 p-2 bg-green-100 text-green-700">{message}</div>
         )}
 
         <form onSubmit={handleAddMedicalRecord} className="mb-8 space-y-4">
-          <h3 className="text-xl font-semibold text-secondary-300">
+          <h3 className="text-xl font-semibold text-gray-100">
             Yeni Kayıt Ekle
           </h3>
           <div className="flex flex-wrap -mx-4">
@@ -94,7 +94,7 @@ const MedicalRecords = () => {
               <div>
                 <label
                   htmlFor="newPetId"
-                  className="block mb-2 text-secondary-300"
+                  className="block mb-2 text-gray-100"
                 >
                   Evcil Hayvan
                 </label>
@@ -109,11 +109,11 @@ const MedicalRecords = () => {
                     py-2
                     border
                     rounded-md
-                    bg-secondary-800
-                    text-secondary-300
+                    bg-gray-700
+                    text-gray-100
                     focus:outline-none
                     focus:ring-2
-                    focus:ring-primary-500
+                    focus:ring-yellow-400
                   "
                   required
                 >
@@ -130,7 +130,7 @@ const MedicalRecords = () => {
               <div>
                 <label
                   htmlFor="newRecordDate"
-                  className="block mb-2 text-secondary-300"
+                  className="block mb-2 text-gray-100"
                 >
                   Tarih
                 </label>
@@ -146,12 +146,12 @@ const MedicalRecords = () => {
                     py-2
                     border
                     rounded-md
-                    bg-secondary-800
-                    text-secondary-300
-                    placeholder-secondary-400
+                    bg-gray-700
+                    text-gray-100
+                    placeholder-gray-400
                     focus:outline-none
                     focus:ring-2
-                    focus:ring-primary-500
+                    focus:ring-yellow-400
                   "
                   required
                 />
@@ -161,7 +161,7 @@ const MedicalRecords = () => {
           <div>
             <label
               htmlFor="newDescription"
-              className="block mb-2 text-secondary-300"
+              className="block mb-2 text-gray-100"
             >
               Açıklama
             </label>
@@ -176,12 +176,12 @@ const MedicalRecords = () => {
                 py-2
                 border
                 rounded-md
-                bg-secondary-800
-                text-secondary-300
-                placeholder-secondary-400
+                bg-gray-700
+                text-gray-100
+                placeholder-gray-400
                 focus:outline-none
                 focus:ring-2
-                focus:ring-primary-500
+                focus:ring-yellow-400
               "
               required
               placeholder="Tıbbi kaydın detayları"
@@ -189,7 +189,7 @@ const MedicalRecords = () => {
           </div>
           <button
             type="submit"
-            className="bg-accent-500 hover:bg-accent-600 text-white px-4 py-2 rounded-md"
+            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-md"
           >
             Kayıt Ekle
           </button>
@@ -199,17 +199,17 @@ const MedicalRecords = () => {
           {medicalRecords.map((record) => (
             <div
               key={record.id}
-              className="p-4 border rounded-lg shadow-md bg-secondary-800"
+              className="p-4 border rounded-lg shadow-md bg-card-bg"
             >
-              <p className="font-semibold text-secondary-300">
+              <p className="font-semibold text-gray-100">
                 Evcil Hayvan:{' '}
                 {pets.find((pet) => pet.id === record.petId)?.name ||
                   'Bilinmiyor'}
               </p>
-              <p className="text-secondary-300">
+              <p className="text-gray-100">
                 Tarih: {new Date(record.recordDate).toLocaleDateString()}
               </p>
-              <p className="text-secondary-300">
+              <p className="text-gray-100">
                 Açıklama: {record.description}
               </p>
             </div>

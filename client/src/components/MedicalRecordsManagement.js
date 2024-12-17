@@ -127,14 +127,14 @@ const MedicalRecordsManagement = () => {
   };
 
   return (
-    <div className="bg-secondary-900 p-4">
+    <div className="bg-background p-4">
       <div className="container mx-auto">
-        <h2 className="text-2xl font-bold mb-4 text-primary-500">
+        <h2 className="text-2xl font-bold mb-4 text-yellow-400">
           Tıbbi Kayıtları Yönet
         </h2>
 
         {isLoading && (
-          <div className="mb-4 p-2 text-secondary-300">Yükleniyor...</div>
+          <div className="mb-4 p-2 text-gray-100">Yükleniyor...</div>
         )}
         {error && <div className="mb-4 p-2 bg-red-100 text-red-700">{error}</div>}
         {message && (
@@ -147,15 +147,15 @@ const MedicalRecordsManagement = () => {
             return (
               <div
                 key={record.id}
-                className="p-4 border rounded-lg shadow-md bg-secondary-800"
+                className="p-4 border rounded-lg shadow-md bg-card-bg"
               >
-                <p className="font-semibold text-secondary-300">
+                <p className="font-semibold text-gray-100">
                   Evcil Hayvan: {pet ? pet.name : 'Bilinmiyor'}
                 </p>
-                <p className="text-secondary-300">
+                <p className="text-gray-100">
                   Kayıt Tarihi: {new Date(record.recordDate).toLocaleDateString()}
                 </p>
-                <p className="text-secondary-300">
+                <p className="text-gray-100">
                   Açıklama: {record.description}
                 </p>
                 <div className="mt-2">
@@ -179,7 +179,7 @@ const MedicalRecordsManagement = () => {
 
         {editMode && (
           <div className="mt-8">
-            <h3 className="text-xl font-semibold text-secondary-300">
+            <h3 className="text-xl font-semibold text-gray-100">
               Tıbbi Kaydı Düzenle
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -188,7 +188,7 @@ const MedicalRecordsManagement = () => {
                   <div>
                     <label
                       htmlFor="petId"
-                      className="block mb-2 text-secondary-300"
+                      className="block mb-2 text-gray-100"
                     >
                       Evcil Hayvan
                     </label>
@@ -203,11 +203,11 @@ const MedicalRecordsManagement = () => {
                         py-2
                         border
                         rounded-md
-                        bg-secondary-800
-                        text-secondary-300
+                        bg-gray-700
+                        text-gray-100
                         focus:outline-none
                         focus:ring-2
-                        focus:ring-primary-500
+                        focus:ring-yellow-400
                       "
                       required
                     >
@@ -224,7 +224,7 @@ const MedicalRecordsManagement = () => {
                   <div>
                     <label
                       htmlFor="recordDate"
-                      className="block mb-2 text-secondary-300"
+                      className="block mb-2 text-gray-100"
                     >
                       Kayıt Tarihi
                     </label>
@@ -240,12 +240,12 @@ const MedicalRecordsManagement = () => {
                         py-2
                         border
                         rounded-md
-                        bg-secondary-800
-                        text-secondary-300
-                        placeholder-secondary-400
+                        bg-gray-700
+                        text-gray-100
+                        placeholder-gray-400
                         focus:outline-none
                         focus:ring-2
-                        focus:ring-primary-500
+                        focus:ring-yellow-400
                       "
                       required
                     />
@@ -255,7 +255,7 @@ const MedicalRecordsManagement = () => {
               <div>
                 <label
                   htmlFor="description"
-                  className="block mb-2 text-secondary-300"
+                  className="block mb-2 text-gray-100"
                 >
                   Açıklama
                 </label>
@@ -270,12 +270,12 @@ const MedicalRecordsManagement = () => {
                     py-2
                     border
                     rounded-md
-                    bg-secondary-800
-                    text-secondary-300
-                    placeholder-secondary-400
+                    bg-gray-700
+                    text-gray-100
+                    placeholder-gray-400
                     focus:outline-none
                     focus:ring-2
-                    focus:ring-primary-500
+                    focus:ring-yellow-400
                   "
                   placeholder="Tıbbi kayıt detayları"
                 />

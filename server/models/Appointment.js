@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const db = require('../config/database');
 const Pet = require('./Pet');
 
-const Reminder = db.define('Reminder', {
+const Appointment = db.define('Appointment', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -12,19 +12,18 @@ const Reminder = db.define('Reminder', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  type: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
   date: {
     type: DataTypes.DATE,
     allowNull: false,
   },
-  notes: {
-    type: DataTypes.TEXT,
+  provider: {
+    type: DataTypes.STRING,
+  },
+  reason: {
+    type: DataTypes.STRING,
   },
 });
 
-Reminder.belongsTo(Pet, { foreignKey: 'petId' });
+Appointment.belongsTo(Pet, { foreignKey: 'petId' });
 
-module.exports = Reminder;
+module.exports = Appointment;

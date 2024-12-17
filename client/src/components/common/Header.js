@@ -18,20 +18,20 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-secondary-800 text-white p-4">
+    <header className="bg-header-bg text-gray-900 p-4">
       <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between">
         <div className="flex-grow flex justify-center sm:justify-start mb-4 sm:mb-0">
-        <Link to="/" className="text-2xl font-bold text-primary-500"> {/* Site adı ve ana sayfa linki eklendi */}
+          <Link to="/" className="text-2xl font-bold text-primary-500">
             Evcil Hayvan Bakım Sistemi
           </Link>
         </div>
 
         <button
-          className="sm:hidden border border-secondary-500 rounded p-2"
+          className="sm:hidden border border-gray-700 rounded p-2"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <svg
-            className="h-6 w-6 text-secondary-300"
+            className="h-6 w-6 text-gray-900"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -52,7 +52,7 @@ const Header = () => {
         >
           <nav
             className={`px-4 py-2 rounded-lg ${
-              isMenuOpen ? 'w-full bg-secondary-700' : ''
+              isMenuOpen ? 'w-full bg-menu-bg' : ''
             }`}
           >
             <ul className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 text-lg">
@@ -60,7 +60,9 @@ const Header = () => {
                 <NavLink
                   to="/pet-registration"
                   className={({ isActive }) =>
-                    isActive ? 'text-primary-500' : 'hover:text-primary-500 text-secondary-300'
+                    isActive
+                      ? 'text-yellow-400'
+                      : 'hover:text-yellow-400 text-gray-900'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -71,7 +73,9 @@ const Header = () => {
                 <NavLink
                   to="/appointment-scheduling"
                   className={({ isActive }) =>
-                    isActive ? 'text-primary-500' : 'hover:text-primary-500 text-secondary-300'
+                    isActive
+                      ? 'text-yellow-400'
+                      : 'hover:text-yellow-400 text-gray-900'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -82,7 +86,9 @@ const Header = () => {
                 <NavLink
                   to="/medical-records"
                   className={({ isActive }) =>
-                    isActive ? 'text-primary-500' : 'hover:text-primary-500 text-secondary-300'
+                    isActive
+                      ? 'text-yellow-400'
+                      : 'hover:text-yellow-400 text-gray-900'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -93,7 +99,9 @@ const Header = () => {
                 <NavLink
                   to="/reminders"
                   className={({ isActive }) =>
-                    isActive ? 'text-primary-500' : 'hover:text-primary-500 text-secondary-300'
+                    isActive
+                      ? 'text-yellow-400'
+                      : 'hover:text-yellow-400 text-gray-900'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -106,7 +114,9 @@ const Header = () => {
                     <NavLink
                       to="/admin"
                       className={({ isActive }) =>
-                        isActive ? 'text-primary-500' : 'hover:text-primary-500 text-secondary-300'
+                        isActive
+                          ? 'text-yellow-400'
+                          : 'hover:text-yellow-400 text-gray-900'
                       }
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -117,7 +127,9 @@ const Header = () => {
                     <NavLink
                       to="/user-management"
                       className={({ isActive }) =>
-                        isActive ? 'text-primary-500' : 'hover:text-primary-500 text-secondary-300'
+                        isActive
+                          ? 'text-yellow-400'
+                          : 'hover:text-yellow-400 text-gray-900'
                       }
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -130,14 +142,14 @@ const Header = () => {
                 {isLoggedIn ? (
                   <button
                     onClick={handleLogout}
-                    className="hover:text-primary-500 text-secondary-300"
+                    className="hover:text-yellow-400 text-gray-900"
                   >
                     Çıkış Yap
                   </button>
                 ) : (
                   <Link
                     to="/login"
-                    className="hover:text-primary-500 text-secondary-300"
+                    className="hover:text-yellow-400 text-gray-900"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Giriş Yap
@@ -148,7 +160,7 @@ const Header = () => {
                 <li>
                   <Link
                     to="/register"
-                    className="hover:text-primary-500 text-secondary-300"
+                    className="hover:text-yellow-400 text-gray-900"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Kayıt Ol

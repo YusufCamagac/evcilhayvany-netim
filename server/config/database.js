@@ -6,7 +6,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   dialectOptions: {
     options: {
       encrypt: true, // Azure kullanıyorsanız
-      trustServerCertificate: true, // Geliştirme için, üretimde kendi sertifikanızı kullanın
+      trustServerCertificate: true, // Geliştirme için, üretimde kendi sertifikanızı kullanın ya da 'false' yapın
     },
   },
 });

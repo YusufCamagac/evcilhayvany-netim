@@ -1,30 +1,30 @@
 const { DataTypes } = require('sequelize');
 const db = require('../config/database');
-const Pet = require('./Pet');
 
-const Reminder = db.define('Reminder', {
+const User = db.define('User', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  petId: {
-    type: DataTypes.INTEGER,
+  username: {
+    type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
-  type: {
+  password: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  date: {
-    type: DataTypes.DATE,
+  email: {
+    type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
-  notes: {
-    type: DataTypes.TEXT,
+  role: {
+    type: DataTypes.STRING,
+    defaultValue: 'user',
   },
 });
 
-Reminder.belongsTo(Pet, { foreignKey: 'petId' });
-
-module.exports = Reminder;
+module.exports = User;

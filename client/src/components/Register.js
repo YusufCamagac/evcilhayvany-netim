@@ -24,30 +24,17 @@ const Register = () => {
       return;
     }
 
-    // Örnek API isteği (gerçek uygulamanızda kendi API'nize göre değiştirin)
-    try {
-      // const response = await api.post('/register', formData); // API'nize istek atın
-      // const data = response.data;
-
-      // if (data.success) {
-      //   navigate('/login'); // Kayıt başarılıysa giriş sayfasına yönlendir
-      // } else {
-      //   setMessage(data.message); // API'den gelen hata mesajını göster
-      // }
-      
-      // **DEMO Amaçlı Yönlendirme**
-      navigate('/login');
-      alert("Kayıt işlemi, backend tarafında giriş kodları yazılmadığı için demo amaçlı yönlendirme yapılmıştır.");
-    } catch (error) {
-      console.error('Kayıt hatası:', error);
-      setMessage('Kayıt olurken bir hata oluştu.');
-    }
+    // **DEMO Amaçlı Yönlendirme**
+    navigate('/login');
+    alert(
+      'Kayıt işlemi, backend tarafında giriş kodları yazılmadığı için demo amaçlı yönlendirme yapılmıştır.'
+    );
   };
 
   return (
-    <div className="bg-secondary-900 min-h-screen flex items-center justify-center">
-      <div className="bg-secondary-800 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-primary-500 mb-6">
+    <div className="bg-background min-h-screen flex items-center justify-center">
+      <div className="bg-card-bg p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center text-yellow-400 mb-6">
           Kayıt Ol
         </h2>
         {message && (
@@ -57,10 +44,7 @@ const Register = () => {
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
-              htmlFor="username"
-              className="block mb-2 text-secondary-300"
-            >
+            <label htmlFor="username" className="block mb-2 text-gray-100">
               Kullanıcı Adı
             </label>
             <input
@@ -75,22 +59,19 @@ const Register = () => {
                 py-2
                 border
                 rounded-md
-                bg-secondary-700
-                text-secondary-300
-                placeholder-secondary-400
+                bg-gray-700
+                text-gray-100
+                placeholder-gray-400
                 focus:outline-none
                 focus:ring-2
-                focus:ring-primary-500
+                focus:ring-yellow-400
               "
               required
               placeholder="Kullanıcı adınızı girin"
             />
           </div>
           <div>
-            <label
-              htmlFor="email"
-              className="block mb-2 text-secondary-300"
-            >
+            <label htmlFor="email" className="block mb-2 text-gray-100">
               E-posta
             </label>
             <input
@@ -105,22 +86,19 @@ const Register = () => {
                 py-2
                 border
                 rounded-md
-                bg-secondary-700
-                text-secondary-300
-                placeholder-secondary-400
+                bg-gray-700
+                text-gray-100
+                placeholder-gray-400
                 focus:outline-none
                 focus:ring-2
-                focus:ring-primary-500
+                focus:ring-yellow-400
               "
               required
               placeholder="E-posta adresinizi girin"
             />
           </div>
           <div>
-            <label
-              htmlFor="password"
-              className="block mb-2 text-secondary-300"
-            >
+            <label htmlFor="password" className="block mb-2 text-gray-100">
               Şifre
             </label>
             <input
@@ -135,12 +113,12 @@ const Register = () => {
                 py-2
                 border
                 rounded-md
-                bg-secondary-700
-                text-secondary-300
-                placeholder-secondary-400
+                bg-gray-700
+                text-gray-100
+                placeholder-gray-400
                 focus:outline-none
                 focus:ring-2
-                focus:ring-primary-500
+                focus:ring-yellow-400
               "
               required
               placeholder="Şifrenizi girin"
@@ -149,7 +127,7 @@ const Register = () => {
           <div>
             <label
               htmlFor="confirmPassword"
-              className="block mb-2 text-secondary-300"
+              className="block mb-2 text-gray-100"
             >
               Şifre Tekrar
             </label>
@@ -165,12 +143,12 @@ const Register = () => {
                 py-2
                 border
                 rounded-md
-                bg-secondary-700
-                text-secondary-300
-                placeholder-secondary-400
+                bg-gray-700
+                text-gray-100
+                placeholder-gray-400
                 focus:outline-none
                 focus:ring-2
-                focus:ring-primary-500
+                focus:ring-yellow-400
               "
               required
               placeholder="Şifrenizi tekrar girin"
@@ -178,7 +156,7 @@ const Register = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-accent-500 hover:bg-accent-600 text-white font-bold py-2 px-4 rounded-md"
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-md"
           >
             Kayıt Ol
           </button>
