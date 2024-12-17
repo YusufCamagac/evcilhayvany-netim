@@ -21,11 +21,15 @@ h3,
 h4,
 h5,
 h6 {
-  color: theme('colors.primary.900');
+  color: var(--color-primary);
   font-weight: theme('fontWeight.bold');
 }
 
 a {
-  color: theme('colors.primary.500');
+  color: theme('colors.blue.500');
   text-decoration: underline;
+}
+
+a:hover {
+  color: theme('colors.blue.600');
 }

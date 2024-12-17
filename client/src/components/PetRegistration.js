@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createPet } from '../api';
-import petRegImage from '../assents/pet-registration.jpg';
+import kadinVeKopek from '../assents/resim3.jpg'; // Eklenen görsel
 
 const PetRegistration = () => {
   const [pet, setPet] = useState({
@@ -46,7 +46,7 @@ const PetRegistration = () => {
         <div className="flex flex-wrap -mx-4">
           <div className="w-full lg:w-1/2 px-4">
             <img
-              src={petRegImage}
+              src={kadinVeKopek}
               alt="Evcil Hayvan Kaydı"
               className="w-full rounded-lg shadow-lg mb-4"
             />

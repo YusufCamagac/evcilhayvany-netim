@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
-import logo from '../assents/logo.png';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -14,25 +14,24 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     setIsMenuOpen(false);
+    navigate('/');
   };
 
   return (
-    <header className="bg-secondary-900 text-white p-4">
+    <header className="bg-secondary-800 text-white p-4">
       <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between">
         <div className="flex-grow flex justify-center sm:justify-start mb-4 sm:mb-0">
-          <Link to="/" className="text-lg font-bold">
-            <img
-              src={logo}
-              alt="Evcil Hayvan Bakım Sistemi Logosu"
-              className="h-16"
-            />
+        <Link to="/" className="text-2xl font-bold text-primary-500"> {/* Site adı ve ana sayfa linki eklendi */}
+            Evcil Hayvan Bakım Sistemi
           </Link>
         </div>
 
-        {/* Hamburger Menü Simgesi (Mobil) */}
-        <button className="sm:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button
+          className="sm:hidden border border-secondary-500 rounded p-2"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
           <svg
-            className="h-6 w-6"
+            className="h-6 w-6 text-secondary-300"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -51,18 +50,17 @@ const Header = () => {
             isMenuOpen ? '' : 'hidden sm:flex'
           } mt-4 sm:mt-0`}
         >
-          {/* Menü (Desktop ve Mobil) */}
           <nav
-            className={`bg-secondary-800 px-4 py-2 rounded-lg ${
-              isMenuOpen ? 'w-full' : ''
+            className={`px-4 py-2 rounded-lg ${
+              isMenuOpen ? 'w-full bg-secondary-700' : ''
             }`}
           >
-            <ul className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
+            <ul className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 text-lg">
               <li>
                 <NavLink
                   to="/pet-registration"
                   className={({ isActive }) =>
-                    isActive ? 'text-primary-500' : 'hover:text-primary-500'
+                    isActive ? 'text-primary-500' : 'hover:text-primary-500 text-secondary-300'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -73,7 +71,7 @@ const Header = () => {
                 <NavLink
                   to="/appointment-scheduling"
                   className={({ isActive }) =>
-                    isActive ? 'text-primary-500' : 'hover:text-primary-500'
+                    isActive ? 'text-primary-500' : 'hover:text-primary-500 text-secondary-300'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -84,7 +82,7 @@ const Header = () => {
                 <NavLink
                   to="/medical-records"
                   className={({ isActive }) =>
-                    isActive ? 'text-primary-500' : 'hover:text-primary-500'
+                    isActive ? 'text-primary-500' : 'hover:text-primary-500 text-secondary-300'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -95,7 +93,7 @@ const Header = () => {
                 <NavLink
                   to="/reminders"
                   className={({ isActive }) =>
-                    isActive ? 'text-primary-500' : 'hover:text-primary-500'
+                    isActive ? 'text-primary-500' : 'hover:text-primary-500 text-secondary-300'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -108,7 +106,7 @@ const Header = () => {
                     <NavLink
                       to="/admin"
                       className={({ isActive }) =>
-                        isActive ? 'text-primary-500' : 'hover:text-primary-500'
+                        isActive ? 'text-primary-500' : 'hover:text-primary-500 text-secondary-300'
                       }
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -119,7 +117,7 @@ const Header = () => {
                     <NavLink
                       to="/user-management"
                       className={({ isActive }) =>
-                        isActive ? 'text-primary-500' : 'hover:text-primary-500'
+                        isActive ? 'text-primary-500' : 'hover:text-primary-500 text-secondary-300'
                       }
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -128,18 +126,18 @@ const Header = () => {
                   </li>
                 </>
               )}
-              <li className="ml-0 sm:ml-4">
+              <li className="ml-0 sm:ml-8">
                 {isLoggedIn ? (
                   <button
                     onClick={handleLogout}
-                    className="hover:text-primary-500"
+                    className="hover:text-primary-500 text-secondary-300"
                   >
                     Çıkış Yap
                   </button>
                 ) : (
                   <Link
                     to="/login"
-                    className="hover:text-primary-500"
+                    className="hover:text-primary-500 text-secondary-300"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Giriş Yap
@@ -149,8 +147,8 @@ const Header = () => {
               {!isLoggedIn && (
                 <li>
                   <Link
-                    to="/user-management"
-                    className="hover:text-primary-500"
+                    to="/register"
+                    className="hover:text-primary-500 text-secondary-300"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Kayıt Ol
