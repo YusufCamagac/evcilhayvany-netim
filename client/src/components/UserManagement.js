@@ -216,18 +216,7 @@ const UserManagement = () => {
                   value={formData.username}
                   onChange={handleChange}
                   className="
-                    w-full
-                    px-3
-                    py-2
-                    border
-                    rounded-md
-                    bg-gray-700
-                    text-gray-100
-                    placeholder-gray-400
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-yellow-400
-                  "
+                    w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none  focus:ring-2  focus:ring-yellow-400"
                   required
                   placeholder="Kullanıcı adı"
                 />
@@ -245,19 +234,7 @@ const UserManagement = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="
-                    w-full
-                    px-3
-                    py-2
-                    border
-                    rounded-md
-                    bg-gray-700
-                    text-gray-100
-                    placeholder-gray-400
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-yellow-400
-                  "
+                  className=" w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 "
                   required
                   placeholder="E-posta adresi"
                 />
@@ -276,19 +253,7 @@ const UserManagement = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="
-                      w-full
-                      px-3
-                      py-2
-                      border
-                      rounded-md
-                      bg-gray-700
-                      text-gray-100
-                      placeholder-gray-400
-                      focus:outline-none
-                      focus:ring-2
-                      focus:ring-yellow-400
-                    "
+                    className=" w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                     required
                     placeholder="Şifre"
                   />
@@ -303,18 +268,7 @@ const UserManagement = () => {
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="
-                    w-full
-                    px-3
-                    py-2
-                    border
-                    rounded-md
-                    bg-gray-700
-                    text-gray-100
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-yellow-400
-                  "
+                  className=" w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 >
                   <option value="user">Kullanıcı</option>
                   <option value="admin">Admin</option>

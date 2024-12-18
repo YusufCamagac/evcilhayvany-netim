@@ -9,6 +9,7 @@ const appointmentRoutes = require('./routes/appointments');
 const medicalRecordRoutes = require('./routes/medicalRecords');
 const userRoutes = require('./routes/users');
 const reminderRoutes = require('./routes/reminders');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -17,21 +18,27 @@ db.authenticate()
   .then(() => console.log('Veritabanı bağlandı...'))
   .catch(err => console.log('Hata: ' + err));
 
-// CORS Ayarları
+
 app.use(cors());
 
-// JSON Ayrıştırıcı
 app.use(express.json());
 
-// Rotaların Tanımlanması
+
 app.use('/api/pets', petRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/medical-records', medicalRecordRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/reminders', reminderRoutes);
+app.use('/api/auth', authRoutes);
+
+
+if (!process.env.JWT_SECRET) {
+  console.error('JWT_SECRET tanımlanmamış!');
+  process.exit(1); // Uygulamadan çık
+}
 
 // Modellerin Senkronize Edilmesi (Tabloları oluşturur)
-db.sync({ force: false }) // force: true KULLANMAYIN! Tabloları siler ve yeniden oluşturur.
+db.sync({ force: false })
   .then(() => {
     console.log('Modeller senkronize edildi.');
 

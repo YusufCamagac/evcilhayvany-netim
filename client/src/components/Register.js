@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../api';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +8,7 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    role: 'user',
   });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
@@ -23,12 +25,20 @@ const Register = () => {
       setMessage('Şifreler eşleşmiyor.');
       return;
     }
+    try {
+      const response = await registerUser(formData);
+      const { token } = response.data;
 
-    // **DEMO Amaçlı Yönlendirme**
-    navigate('/login');
-    alert(
-      'Kayıt işlemi, backend tarafında giriş kodları yazılmadığı için demo amaçlı yönlendirme yapılmıştır.'
-    );
+      localStorage.setItem('token', token);
+      localStorage.setItem('isLoggedIn', 'true');
+
+      navigate('/');
+    } catch (error) {
+      console.error('Kayıt hatası:', error);
+      setMessage(
+        error.response.data.msg || 'Kayıt olurken bir hata oluştu.'
+      );
+    }
   };
 
   return (
@@ -53,12 +63,7 @@ const Register = () => {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className="
-                w-full
-                px-3
-                py-2
-                border
-                rounded-md
+              className=" w-full px-3 py-2 border rounded-md
                 bg-gray-700
                 text-gray-100
                 placeholder-gray-400
@@ -81,14 +86,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               className="
-                w-full
-                px-3
-                py-2
-                border
-                rounded-md
-                bg-gray-700
-                text-gray-100
-                placeholder-gray-400
+                w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 placeholder-gray-400
                 focus:outline-none
                 focus:ring-2
                 focus:ring-yellow-400
@@ -107,17 +105,7 @@ const Register = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="
-                w-full
-                px-3
-                py-2
-                border
-                rounded-md
-                bg-gray-700
-                text-gray-100
-                placeholder-gray-400
-                focus:outline-none
-                focus:ring-2
+              className=" w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2
                 focus:ring-yellow-400
               "
               required
@@ -137,13 +125,7 @@ const Register = () => {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="
-                w-full
-                px-3
-                py-2
-                border
-                rounded-md
-                bg-gray-700
+              className=" w-full px-3 py-2 border rounded-md bg-gray-700
                 text-gray-100
                 placeholder-gray-400
                 focus:outline-none

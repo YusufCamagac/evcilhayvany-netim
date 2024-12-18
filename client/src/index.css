@@ -4,9 +4,9 @@
 
 :root {
   --color-background: theme('colors.background');
-  --color-text: theme('colors.secondary.900');
+  --color-text: theme('colors.gray.100');
   --color-primary: theme('colors.primary.500');
-  --color-accent: theme('colors.yellow.400');
+  --color-accent: theme('colors.accent.500');
   --font-family-sans: theme('fontFamily.sans');
 }
 
@@ -22,7 +22,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--color-text);
+  color: theme('colors.secondary.900'); /* Başlık rengini beyaz */
   font-weight: theme('fontWeight.bold');
 }
 
@@ -32,5 +32,5 @@ a {
 }
 
 a:hover {
-  color: theme('colors.primary.600');
+  color: theme('colors.secondary.900');
 }

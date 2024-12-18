@@ -9,8 +9,8 @@ module.exports = {
             200: '#7dd3fc',
             300: '#38bdf8',
             400: '#0ea5e9',
-            500: '#0284c7', // Açık mavi (linkler ve vurgular için)
-            600: '#0369a1',
+            500: '#EAB508', // Açık mor (linkler ve vurgular için)
+            600: '#7E22CE', // Daha koyu mor
             700: '#075985',
             800: '#0c4a6e',
             900: '#0d405d', // Koyu lacivert (başlıklar ve bazı metinler için)
@@ -39,11 +39,11 @@ module.exports = {
             800: '#9a3412',
             900: '#7c2d12',
           },
-        background: '#F8F8F8', // Ana arka plan rengi
-        alternative: '#e0f2fe', // Alternatif arka plan rengi
-        'header-bg': '#e0f2fe', // Header arka plan rengi
-        'menu-bg': '#cbd5e1', // Menü arka plan rengi
-        'card-bg': '#edf6f2', // Kart arka plan rengi
+        background: '#18181b', // Ana arka plan rengi
+        
+        'header-bg': '#28282B', // Header arka plan
+        'menu-bg': '#334155', // Menü arka plan 
+        'card-bg': '#28282B', // Kart arka plan 
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui'],

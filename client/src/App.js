@@ -1,5 +1,5 @@
 import React from 'react';
-import AppRoutes from './routes'; // Rotaları içe aktar
+import AppRoutes from './routes';
 
 const App = () => {
   return (

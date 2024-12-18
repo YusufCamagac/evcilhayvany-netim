@@ -10,7 +10,7 @@ const MedicalRecords = () => {
   });
   const [pets, setPets] = useState([]);
   const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading]= useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {

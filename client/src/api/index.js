@@ -6,6 +6,20 @@ const api = axios.create({
   baseURL: API_BASE_URL,
 });
 
+// Her istekte, localStorage'dan token'ı alıp Authorization başlığına ekle
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 // Evcil Hayvanlar
 export const getPets = () => api.get('/pets');
 export const getPetById = (id) => api.get(`/pets/${id}`);
@@ -27,7 +41,7 @@ export const createMedicalRecord = (medicalRecordData) => api.post('/medical-rec
 export const updateMedicalRecord = (id, medicalRecordData) => api.put(`/medical-records/${id}`, medicalRecordData);
 export const deleteMedicalRecord = (id) => api.delete(`/medical-records/${id}`);
 
-// Kullanıcılar (kimlik doğrulama eklendiğinde genişletilecek)
+// Kullanıcılar 
 export const getUsers = () => api.get('/users');
 export const getUserById = (id) => api.get(`/users/${id}`);
 export const createUser = (userData) => api.post('/users', userData);
@@ -39,5 +53,9 @@ export const getReminders = () => api.get('/reminders');
 export const createReminder = (reminderData) => api.post('/reminders', reminderData);
 export const updateReminder = (id, reminderData) => api.put(`/reminders/${id}`, reminderData);
 export const deleteReminder = (id) => api.delete(`/reminders/${id}`);
+
+// Kimlik Doğrulama
+export const loginUser = (credentials) => api.post('/auth/login', credentials);
+export const registerUser = (userData) => api.post('/auth/register', userData);
 
 export default api;

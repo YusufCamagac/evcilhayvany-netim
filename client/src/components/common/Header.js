@@ -13,6 +13,7 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('token');
     setIsMenuOpen(false);
     navigate('/');
   };
@@ -27,7 +28,7 @@ const Header = () => {
         </div>
 
         <button
-          className="sm:hidden border border-gray-700 rounded p-2"
+          className="sm:hidden border border-gray-900 rounded p-2"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <svg
@@ -61,8 +62,8 @@ const Header = () => {
                   to="/pet-registration"
                   className={({ isActive }) =>
                     isActive
-                      ? 'text-yellow-400'
-                      : 'hover:text-yellow-400 text-gray-900'
+                      ? 'text-primary-500'
+                      : 'hover:text-primary-500 text-white'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -74,8 +75,8 @@ const Header = () => {
                   to="/appointment-scheduling"
                   className={({ isActive }) =>
                     isActive
-                      ? 'text-yellow-400'
-                      : 'hover:text-yellow-400 text-gray-900'
+                      ? 'text-primary-500'
+                      : 'hover:text-primary-500 text-white'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -87,8 +88,8 @@ const Header = () => {
                   to="/medical-records"
                   className={({ isActive }) =>
                     isActive
-                      ? 'text-yellow-400'
-                      : 'hover:text-yellow-400 text-gray-900'
+                      ? 'text-primary-500'
+                      : 'hover:text-primary-500 text-white'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -100,8 +101,8 @@ const Header = () => {
                   to="/reminders"
                   className={({ isActive }) =>
                     isActive
-                      ? 'text-yellow-400'
-                      : 'hover:text-yellow-400 text-gray-900'
+                      ? 'text-primary-500'
+                      : 'hover:text-primary-500 text-white'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -115,8 +116,8 @@ const Header = () => {
                       to="/admin"
                       className={({ isActive }) =>
                         isActive
-                          ? 'text-yellow-400'
-                          : 'hover:text-yellow-400 text-gray-900'
+                          ? 'text-primary-500'
+                          : 'hover:text-primary-500 text-white'
                       }
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -128,8 +129,8 @@ const Header = () => {
                       to="/user-management"
                       className={({ isActive }) =>
                         isActive
-                          ? 'text-yellow-400'
-                          : 'hover:text-yellow-400 text-gray-900'
+                          ? 'text-primary-500'
+                          : 'hover:text-primary-500 text-white'
                       }
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -142,14 +143,14 @@ const Header = () => {
                 {isLoggedIn ? (
                   <button
                     onClick={handleLogout}
-                    className="hover:text-yellow-400 text-gray-900"
+                    className="hover:text-primary-500 text-white"
                   >
                     Çıkış Yap
                   </button>
                 ) : (
                   <Link
                     to="/login"
-                    className="hover:text-yellow-400 text-gray-900"
+                    className="hover:text-primary-500 text-white"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Giriş Yap
@@ -160,7 +161,7 @@ const Header = () => {
                 <li>
                   <Link
                     to="/register"
-                    className="hover:text-yellow-400 text-gray-900"
+                    className="hover:text-primary-500 text-white"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Kayıt Ol

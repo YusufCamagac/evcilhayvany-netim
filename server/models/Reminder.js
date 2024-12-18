@@ -13,7 +13,7 @@ const Reminder = db.define('Reminder', {
     allowNull: false,
   },
   type: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING, // İlaç, Aşı, Randevu vb.
     allowNull: false,
   },
   date: {

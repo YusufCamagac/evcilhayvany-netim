@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-// Tüm kullanıcıları getir (GET /api/users)
+// Tüm kullanıcıları getir (GET /api/users) - Sadece admin görebilmeli
 router.get('/', async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: { exclude: ['password'] } // Şifreyi gösterme
+    });
     res.json(users);
   } catch (err) {
     console.error(err.message);
@@ -58,8 +62,12 @@ router.put('/:id', async (req, res) => {
 
     user.username = username;
     user.email = email;
-    user.password = password; // Şifre güncelleme işlemini dikkatli yapın!
     user.role = role;
+
+    // Eğer şifre güncellendiyse, şifrele
+    if (password) {
+      user.password = password;
+    }
 
     await user.save();
 

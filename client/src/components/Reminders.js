@@ -76,9 +76,7 @@ const Reminders = () => {
         <h2 className="text-2xl font-bold mb-4 text-yellow-400">
           Hatırlatıcılar
         </h2>
-        {isLoading && (
-          <div className="mb-4 p-2 text-gray-100">Yükleniyor...</div>
-        )}
+        {isLoading && <div className="mb-4 p-2 text-gray-100">Yükleniyor...</div>}
         {error && <div className="mb-4 p-2 bg-red-100 text-red-700">{error}</div>}
         {message && (
           <div className="mb-4 p-2 bg-green-100 text-green-700">{message}</div>
@@ -101,18 +99,7 @@ const Reminders = () => {
                   name="petId"
                   value={newReminder.petId}
                   onChange={handleNewReminderChange}
-                  className="
-                    w-full
-                    px-3
-                    py-2
-                    border
-                    rounded-md
-                    bg-gray-700
-                    text-gray-100
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-yellow-400
-                  "
+                  className=" w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                   required
                 >
                   <option value="">Seçiniz</option>
@@ -137,17 +124,7 @@ const Reminders = () => {
                   name="type"
                   value={newReminder.type}
                   onChange={handleNewReminderChange}
-                  className="
-                    w-full
-                    px-3
-                    py-2
-                    border
-                    rounded-md
-                    bg-gray-700
-                    text-gray-100
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-yellow-400
+                  className=" w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400
                   "
                   required
                 >
@@ -172,18 +149,7 @@ const Reminders = () => {
               name="date"
               value={newReminder.date}
               onChange={handleNewReminderChange}
-              className="
-                w-full
-                px-3
-                py-2
-                border
-                rounded-md
-                bg-gray-700
-                text-gray-100
-                placeholder-gray-400
-                focus:outline-none
-                focus:ring-2
-                focus:ring-yellow-400
+              className=" w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400
               "
               required
             />
@@ -200,18 +166,7 @@ const Reminders = () => {
               name="notes"
               value={newReminder.notes}
               onChange={handleNewReminderChange}
-              className="
-                w-full
-                px-3
-                py-2
-                border
-                rounded-md
-                bg-gray-700
-                text-gray-100
-                placeholder-gray-400
-                focus:outline-none
-                focus:ring-2
-                focus:ring-yellow-400
+              className=" w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400
               "
               placeholder="Hatırlatıcı notları"
             />

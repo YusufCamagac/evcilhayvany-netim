@@ -15,10 +15,10 @@ const HomePage = () => {
             alt="Veteriner ve evcil hayvanlar"
             className="mx-auto w-full md:w-1/2 rounded-lg shadow-xl mb-10"
           />
-          <h1 className="text-4xl font-bold mb-4 text-gray-900">
+          <h1 className="text-4xl font-bold mb-4 text-gray-100">
             Evcil Hayvan Bakımı ve Sağlık Yönetim Sistemi
           </h1>
-          <p className="text-lg mb-8 text-gray-700">
+          <p className="text-lg mb-8 text-gray-300">
             Evcil hayvanlarınızın sağlığını ve bakımını kolayca yönetin!
           </p>
           <Link
@@ -32,9 +32,8 @@ const HomePage = () => {
 
       <section className="py-16">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">Özellikler</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-100">Özellikler</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Özellik kartları */}
             <div className="p-6 border rounded-lg shadow-md bg-card-bg">
               <img
                 src={kopekMuayene}
@@ -54,8 +53,7 @@ const HomePage = () => {
                 Daha Fazla Bilgi
               </Link>
             </div>
-            {/* Diğer özellik kartlarını da aynı şekilde güncelleyin */}
-             <div className="p-6 border rounded-lg shadow-md bg-card-bg">
+            <div className="p-6 border rounded-lg shadow-md bg-card-bg">
               <img
                 src={kediMuayene}
                 alt="Randevu Zamanlama"

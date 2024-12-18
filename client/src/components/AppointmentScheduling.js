@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { createAppointment, getPets } from '../api';
-import { TextField } from '@mui/material';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import dayjs from 'dayjs';
+import React, { useState, useEffect } from "react";
+import { createAppointment, getPets } from "../api";
+import { TextField } from "@mui/material";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import dayjs from "dayjs";
 
 const AppointmentScheduling = () => {
   const [appointment, setAppointment] = useState({
-    petId: '',
+    petId: "",
     date: dayjs(),
-    time: '',
-    provider: '',
-    reason: '',
+    time: "",
+    provider: "",
+    reason: "",
   });
   const [pets, setPets] = useState([]);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const fetchPets = async () => {
@@ -21,7 +21,7 @@ const AppointmentScheduling = () => {
         const response = await getPets();
         setPets(response.data);
       } catch (error) {
-        console.error('Evcil hayvanlar alınamadı:', error);
+        console.error("Evcil hayvanlar alınamadı:", error);
       }
     };
     fetchPets();
@@ -32,12 +32,12 @@ const AppointmentScheduling = () => {
   };
 
   const handleChange = (e) => {
-    if (e.target.name === 'time') {
-      const [hours, minutes] = e.target.value.split(':');
+    if (e.target.name === "time") {
+      const [hours, minutes] = e.target.value.split(":");
       const newTime = dayjs()
-        .set('hour', hours)
-        .set('minute', minutes)
-        .set('second', 0);
+        .set("hour", hours)
+        .set("minute", minutes)
+        .set("second", 0);
       setAppointment({ ...appointment, date: newTime });
     } else {
       setAppointment({ ...appointment, [e.target.name]: e.target.value });
@@ -53,20 +53,20 @@ const AppointmentScheduling = () => {
       };
 
       const response = await createAppointment(appointmentData);
-      setMessage('Randevu başarıyla oluşturuldu!');
+      setMessage("Randevu başarıyla oluşturuldu!");
       setAppointment({
-        petId: '',
+        petId: "",
         date: dayjs(),
-        time: '',
-        provider: '',
-        reason: '',
+        time: "",
+        provider: "",
+        reason: "",
       });
 
-      setTimeout(() => setMessage(''), 3000);
+      setTimeout(() => setMessage(""), 3000);
 
       console.log(response.data);
     } catch (error) {
-      setMessage('Randevu oluşturulamadı.');
+      setMessage("Randevu oluşturulamadı.");
       console.error(error);
     }
   };
@@ -82,10 +82,7 @@ const AppointmentScheduling = () => {
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
-              htmlFor="petId"
-              className="block mb-2 text-gray-100"
-            >
+            <label htmlFor="petId" className="block mb-2 text-gray-100">
               Evcil Hayvan
             </label>
             <select
@@ -93,17 +90,7 @@ const AppointmentScheduling = () => {
               name="petId"
               value={appointment.petId}
               onChange={handleChange}
-              className="
-                w-full
-                px-3
-                py-2
-                border
-                rounded-md
-                bg-gray-700
-                text-gray-100
-                focus:outline-none
-                focus:ring-2
-                focus:ring-yellow-400
+              className=" w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400
               "
               required
             >
@@ -118,10 +105,7 @@ const AppointmentScheduling = () => {
           <div className="flex flex-wrap -mx-4">
             <div className="w-full px-4">
               <div>
-                <label
-                  htmlFor="date"
-                  className="block mb-2 text-gray-100"
-                >
+                <label htmlFor="date" className="block mb-2 text-gray-100">
                   Tarih ve Saat
                 </label>
                 <DateTimePicker
@@ -133,40 +117,29 @@ const AppointmentScheduling = () => {
                       {...params}
                       fullWidth
                       InputProps={{
-                        className: 'bg-gray-700 text-gray-100',
-                        style: { color: 'white' },
+                        className: "bg-gray-700 text-gray-100",
+                        style: { color: "white" },
                       }}
                     />
                   )}
-                  className="
-                    w-full
-                    px-3
-                    py-2
-                    border
-                    rounded-md
-                    bg-gray-700
-                    text-gray-100
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-yellow-400
-                  "
+                  className=" w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                   required
                   slotProps={{
                     textField: {
-                      variant: 'outlined',
+                      variant: "outlined",
                       fullWidth: true,
-                      margin: 'normal',
+                      margin: "normal",
                       required: true,
-                      name: 'date',
+                      name: "date",
                       InputLabelProps: {
-                        className: 'text-gray-100',
+                        className: "text-gray-100",
                       },
                       InputProps: {
-                        className: 'text-gray-100',
+                        className: "text-gray-100",
                       },
                       inputProps: {
                         className:
-                          'bg-gray-700 text-gray-100 placeholder-gray-400',
+                          "bg-gray-700 text-gray-100 placeholder-gray-400",
                       },
                     },
                   }}
@@ -175,10 +148,7 @@ const AppointmentScheduling = () => {
             </div>
           </div>
           <div>
-            <label
-              htmlFor="provider"
-              className="block mb-2 text-gray-100"
-            >
+            <label htmlFor="provider" className="block mb-2 text-gray-100">
               Sağlayıcı
             </label>
             <input
@@ -187,28 +157,13 @@ const AppointmentScheduling = () => {
               name="provider"
               value={appointment.provider}
               onChange={handleChange}
-              className="
-                w-full
-                px-3
-                py-2
-                border
-                rounded-md
-                bg-gray-700
-                text-gray-100
-                placeholder-gray-400
-                focus:outline-none
-                focus:ring-2
-                focus:ring-yellow-400
-              "
+              className=" w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 "
               required
               placeholder="Veteriner adı"
             />
           </div>
           <div>
-            <label
-              htmlFor="reason"
-              className="block mb-2 text-gray-100"
-            >
+            <label htmlFor="reason" className="block mb-2 text-gray-100">
               Randevu Nedeni
             </label>
             <textarea
@@ -216,19 +171,7 @@ const AppointmentScheduling = () => {
               name="reason"
               value={appointment.reason}
               onChange={handleChange}
-              className="
-                w-full
-                px-3
-                py-2
-                border
-                rounded-md
-                bg-gray-700
-                text-gray-100
-                placeholder-gray-400
-                focus:outline-none
-                focus:ring-2
-                focus:ring-yellow-400
-              "
+              className=" w-full px-3 py-2 border rounded-md bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
               placeholder="Randevu nedeninizi kısaca açıklayınız"
             />
           </div>

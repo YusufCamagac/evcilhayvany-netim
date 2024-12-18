@@ -28,6 +28,7 @@ const AppRoutes = () => {
         />
         <Route path="medical-records" element={<MedicalRecords />} />
         <Route path="reminders" element={<Reminders />} />
+        <Route path="user-management" element={<UserManagement />} />
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
       </Route>
@@ -35,7 +36,7 @@ const AppRoutes = () => {
         <Route
           index
           element={
-            <PrivateRoute>
+            <PrivateRoute roles={['admin']}>
               <AdminManagement />
             </PrivateRoute>
           }
@@ -43,7 +44,7 @@ const AppRoutes = () => {
         <Route
           path="users"
           element={
-            <PrivateRoute>
+            <PrivateRoute roles={['admin']}>
               <UserManagement />
             </PrivateRoute>
           }
@@ -51,7 +52,7 @@ const AppRoutes = () => {
         <Route
           path="pets"
           element={
-            <PrivateRoute>
+            <PrivateRoute roles={['admin']}>
               <PetsManagement />
             </PrivateRoute>
           }
@@ -59,7 +60,7 @@ const AppRoutes = () => {
         <Route
           path="appointments"
           element={
-            <PrivateRoute>
+            <PrivateRoute roles={['admin']}>
               <AppointmentsManagement />
             </PrivateRoute>
           }
@@ -67,13 +68,13 @@ const AppRoutes = () => {
         <Route
           path="medical-records"
           element={
-            <PrivateRoute>
+            <PrivateRoute roles={['admin']}>
               <MedicalRecordsManagement />
             </PrivateRoute>
           }
         />
       </Route>
-      <Route path="*" element={<h1>404 Not Found</h1>}></Route>
+      {/* <Route path="*" element={<h1>404 Not Found</h1>}></Route> */}
     </Routes>
   );
 };

@@ -61,7 +61,7 @@ router.put('/:id', async (req, res) => {
     }
 
     appointment.petId = petId;
-    appointment.date =  dayjs(date).toISOString();
+    appointment.date = dayjs(date).toISOString();
     appointment.provider = provider;
     appointment.reason = reason;
 
