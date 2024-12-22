@@ -38,7 +38,7 @@ if (!process.env.JWT_SECRET) {
 }
 
 // Modellerin Senkronize Edilmesi (Tabloları oluşturur)
-db.sync({ force: false })
+db.sync({ force: true })
   .then(() => {
     console.log('Modeller senkronize edildi.');
 
